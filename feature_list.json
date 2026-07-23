@@ -1,0 +1,44 @@
+{
+  "features": [
+    {
+      "id": "feat-001",
+      "name": "Harness Bootstrap",
+      "description": "Create AGENTS.md, progress.md, feature_list.json, session-handoff.md, and init.ps1 for the skill project",
+      "dependencies": [],
+      "status": "done",
+      "evidence": "All five harness files present in engineering-cybernetics-coding/"
+    },
+    {
+      "id": "feat-002",
+      "name": "Restructure Skill as Thinking-Mode Scaffold",
+      "description": "Restructure SKILL.md, README.md, and all references/templates/evals to target LLM cognitive behavior rather than human process checklist. Add Scope section, runtime prompt block, LLM behavior patterns to every reference, reauthored evals probing cognitive laws.",
+      "dependencies": ["feat-001"],
+      "status": "done",
+      "evidence": "SKILL.md has Scope and runtime prompt block; all 8 references have explicit LLM behavior pattern sections; evals rewritten to 11 MUST/SHOULD items probing cognitive laws."
+    },
+    {
+      "id": "feat-003",
+      "name": "Add Worked Examples per Reference",
+      "description": "Add 2-3 worked before/after code examples to reference files showing the anti-pattern and the control-theoretic correction.",
+      "dependencies": ["feat-002"],
+      "status": "not-started",
+      "evidence": ""
+    },
+    {
+      "id": "feat-004",
+      "name": "Extract PDF Excerpts into References",
+      "description": "Extract 2-3 page excerpts from 工程控制论.pdf into one or more reference files to ground the skill in the original text directly.",
+      "dependencies": ["feat-002"],
+      "status": "not-started",
+      "evidence": ""
+    },
+    {
+      "id": "feat-005",
+      "name": "Run Full Evals Audit",
+      "description": "Confirm all MUST items in evals/checks.json are relevant and calibrated. No broken markdown links.",
+      "dependencies": ["feat-002"],
+      "status": "not-started",
+      "evidence": ""
+    }
+  ]
+}
