@@ -1,5 +1,5 @@
 {
-  "skill": "engineering-cybernetics-coding",
+  "skill": "engineering-cybernetics-thinking",
   "purpose": "Self-audit checks an LLM applies to its own reasoning and output to confirm the control-theoretic thinking mode was active. The LLM must pass all MUST items before declaring success. These are not process audits; they probe whether the LLM *thought* in control terms: identified state, demanded observability, checked stability, respected bounds, etc.",
   "cognitive_laws": [
     "Name x before u. Unnamed targets are unregulated.",

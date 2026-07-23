@@ -1,4 +1,4 @@
-# init.ps1 — Harness verification for engineering-cybernetics-coding skill
+# init.ps1 — Harness verification for engineering-cybernetics-thinking skill
 # Required by AGENTS.md. Run before claiming a feature done.
 
 param()

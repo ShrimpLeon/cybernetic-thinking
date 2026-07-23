@@ -1,5 +1,5 @@
 ---
-name: engineering-cybernetics-coding
+name: engineering-cybernetics-thinking
 description: >
   Thinking-mode skill for LLMs: installs a control-theoretic cognitive operating system
   derived from Qian Xuesen & Song Jian's "Engineering Cybernetics" (工程控制论). Shapes how
@@ -12,7 +12,7 @@ description: >
 license: MIT
 ---
 
-# Engineering Cybernetics for Coding
+# Engineering Cybernetics Thinking
 
 A control-systems worldview for writing and debugging software, derived from Qian Xuesen &
 Song Jian, *Engineering Cybernetics* (工程控制论). Language- and framework-agnostic: the

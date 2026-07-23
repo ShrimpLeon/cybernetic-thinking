@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Harness for maintaining the `engineering-cybernetics-coding` skill. Agents working on this
+Harness for maintaining the `engineering-cybernetics-thinking` skill. Agents working on this
 repository must keep the skill small, aligned to the book, and self-consistent: every claim in
 SKILL.md must trace to a reference file; every reference link must resolve.
 
@@ -65,7 +65,7 @@ Before ending a session:
 Required checks:
 
 - `python -m json.tool evals/checks.json` — valid JSON
-- All reference links in `SKILL.md` resolve to existing files under `engineering-cybernetics-coding/`
+- All reference links in `SKILL.md` resolve to existing files under `engineering-cybernetics-thinking/`
 
 ## Escalation
 

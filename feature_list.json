@@ -6,7 +6,7 @@
       "description": "Create AGENTS.md, progress.md, feature_list.json, session-handoff.md, and init.ps1 for the skill project",
       "dependencies": [],
       "status": "done",
-      "evidence": "All five harness files present in engineering-cybernetics-coding/"
+      "evidence": "All five harness files present in engineering-cybernetics-thinking/"
     },
     {
       "id": "feat-002",
