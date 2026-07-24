@@ -5,6 +5,22 @@ Versioning follows [Semantic Versioning](https://semver.org/) in `X.Y.Z` format.
 
 ---
 
+## [0.1.3] — 2026-07-25
+
+### Added
+- XYZ versioning convention documented in `AGENTS.md` (X=major, Y=minor, Z=patch)
+
+### Changed
+- Unified version numbers across all project files to `0.1.3`
+- README.md and progress.md version tables updated from `0.1.0` to `0.1.3`
+- `postinstall` script removed from `package.json` (npx-first approach)
+
+## [0.1.2] — 2026-07-25
+
+### Added
+- Gitee download link in README.md (both 中文 and English sections)
+- `repository.url` and `homepage` in `package.json` updated to point to Gitee (`gitee.com/leon0903/systems-thinking`)
+
 ## [0.1.1] — 2026-07-24
 
 ### Changed

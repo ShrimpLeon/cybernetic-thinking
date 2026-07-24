@@ -1,6 +1,6 @@
 {
   "name": "skill-systems-thinking",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Control-theoretic thinking scaffold for AI coding agents — identify state, measure, stabilize, close the loop.",
   "license": "MIT",
   "main": "SKILL.md",
@@ -41,9 +41,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ShrimpLeon/systems-thinking.git"
+    "url": "git+https://gitee.com/leon0903/systems-thinking.git"
   },
-  "homepage": "https://github.com/ShrimpLeon/systems-thinking#readme",
+  "homepage": "https://gitee.com/leon0903/systems-thinking#readme",
   "os": [
     "darwin",
     "linux",

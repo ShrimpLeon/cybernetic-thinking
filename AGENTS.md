@@ -27,6 +27,29 @@ If baseline verification is failing, repair that first before adding new scope.
 - **Evidence first**: every SKILL.md claim must be backed by a reference file path; every
   reference link must resolve to an existing file.
 
+## Version Convention
+
+All version numbers follow Semantic Versioning (`X.Y.Z`):
+
+| Segment | Meaning | Trigger |
+|---|---|---|
+| **X** (major) | 大版本 | Breaking changes, major architectural shifts |
+| **Y** (minor) | 新功能、大bug修复或小版本升级 | New features, major bug fixes, minor version upgrades |
+| **Z** (patch) | 小功能调整和bug修改 | Small feature adjustments, bug fixes |
+
+Examples:
+- `1.0.0` → initial stable release
+- `1.1.0` → added npx install support (new feature)
+- `1.1.1` → fixed Gitee download link (bug fix)
+- `2.0.0` → restructured skill format (breaking change)
+
+**统一修改规则**：修改版本号后，必须同步更新以下所有文件中的版本号，不得遗漏：
+- `package.json` — `"version"` 字段
+- `README.md` — 中文和英文版本表格
+- `CHANGELOG.md` — 新版本条目
+- `progress.md` — `Current State` 和 `What's Next` 中的版本引用
+- `session-handoff.md` — `Recommended Next Step` 中的版本引用
+
 ## Required Artifacts
 
 - `feature_list.json` — Feature state tracker (source of truth)

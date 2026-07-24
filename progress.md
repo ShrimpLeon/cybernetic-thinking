@@ -2,9 +2,9 @@
 
 ## Current State
 
-**Last Updated:** 2026-07-24 21:52
+**Last Updated:** 2026-07-25 14:52
 **Session ID:** [optional]
-**Active Feature:** feat-006 — npm install + multi-agent README support (complete)
+**Active Feature:** feat-006 — npx one-command install with Gitee support (complete)
 
 ## Status
 
@@ -32,7 +32,7 @@
   - `assets/runtime-prompt.txt` extracted from SKILL.md inline block
   - Non-standard YAML field removed; imperative style unified
   - `CHANGELOG.md` created with XYZ SemVer
-  - Version tables updated to `0.1.0` with CHANGELOG link
+  - Version tables updated to `0.1.3` with CHANGELOG link
   - `model-validity-stated` MUST check added to `evals/checks.json`
   - `init.ps1` expanded to verify 20 files including new assets/references
   - All `templates/` references clarified in SKILL.md and README.md with install-path context
@@ -40,6 +40,7 @@
 - [x] feat-006 — npx one-command install with agent auto-detection:
   - README.md Installation section restructured with npx as primary method, npm install removed
   - GitHub download kept as alternative installation path
+  - Gitee download added as alternative installation path
   - Agent-specific setup info for 8 agents (Kilo, Claude Code, Aider, Cursor, OpenAI Codex, GitHub Copilot, Windsurf, Zed)
   - Compatibility matrix added in both 中文 and English sections
   - `scripts/install.js` created with agent auto-detection and symlinking
@@ -47,6 +48,7 @@
   - Supports `--global` and `--force` flags
   - `scripts/` added to `files` array in package.json
   - `postinstall` script removed from package.json (no longer needed with npx approach)
+  - `repository.url` and `homepage` in package.json updated to Gitee
 
 ### What's In Progress
 
@@ -54,7 +56,7 @@
 
 ### What's Next
 
-1. Publish v0.1.1 to npm with the npx install support
+1. Publish v0.1.3 to npm with the Gitee support and npx-first approach
 2. Consider adding worked examples to remaining reference files if evals show LLMs still missing a principle
 
 ## Blockers / Risks

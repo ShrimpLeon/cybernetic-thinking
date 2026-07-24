@@ -57,6 +57,13 @@ git clone https://github.com/ShrimpLeon/systems-thinking.git
 cp -r systems-thinking <agent-skills-dir>/
 ```
 
+### Gitee 下载
+
+```bash
+git clone https://gitee.com/leon0903/systems-thinking.git
+cp -r systems-thinking <agent-skills-dir>/
+```
+
 ### 符号链接（开发用）
 
 ```bash
@@ -217,6 +224,9 @@ npx 安装会自动将 skill 链接到各 agent 的 skill 目录。由于 npm �
 
 | 版本 | 日期 | 说明 |
 |---|---|---|
+| 0.1.3 | 2026-07-25 | 统一项目版本号；添加 XYZ 版本约定到 AGENTS.md；移除 postinstall 脚本 |
+| 0.1.2 | 2026-07-25 | 添加 Gitee 下载链接；更新 repository 和 homepage 到 Gitee |
+| 0.1.1 | 2026-07-24 | 修复 repository.url；扩展 keywords；添加 homepage 和 bin 字段 |
 | 0.1.0 | 2026-07-24 | 首次公开发布 |
 
 完整变更记录见 [CHANGELOG.md](CHANGELOG.md)。
@@ -293,6 +303,13 @@ This command automatically detects AI agents installed on your machine and links
 
 ```bash
 git clone https://github.com/ShrimpLeon/systems-thinking.git
+cp -r systems-thinking <agent-skills-dir>/
+```
+
+### Gitee download
+
+```bash
+git clone https://gitee.com/leon0903/systems-thinking.git
 cp -r systems-thinking <agent-skills-dir>/
 ```
 
@@ -457,6 +474,9 @@ This skill follows [Semantic Versioning](https://semver.org/) (`X.Y.Z`).
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.1.3 | 2026-07-25 | Unified version numbers across project; added XYZ version convention to AGENTS.md; removed postinstall script |
+| 0.1.2 | 2026-07-25 | Added Gitee download link; updated repository and homepage to Gitee |
+| 0.1.1 | 2026-07-24 | Fixed repository.url; expanded keywords; added homepage and bin field |
 | 0.1.0 | 2026-07-24 | Initial public release |
 
 Full history: [CHANGELOG.md](CHANGELOG.md).
