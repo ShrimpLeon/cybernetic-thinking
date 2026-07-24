@@ -1,5 +1,5 @@
 {
-  "skill": "engineering-cybernetics-thinking",
+  "skill": "systems-thinking",
   "purpose": "Self-audit checks an LLM applies to its own reasoning and output to confirm the control-theoretic thinking mode was active. The LLM must pass all MUST items before declaring success. These are not process audits; they probe whether the LLM *thought* in control terms: identified state, demanded observability, checked stability, respected bounds, etc.",
   "cognitive_laws": [
     "Name x before u. Unnamed targets are unregulated.",
@@ -77,6 +77,12 @@
       "severity": "SHOULD",
       "question": "Did the LLM avoid classic control-theoretic anti-patterns? Add retries without bounds → retry storm. Add loop without damping → oscillation. Add feature before stability → divergence.",
       "pass_if": "No unbounded retry/recursion/allocation; no optimization before stabilization; no feature creep on an unstable base."
+    },
+    {
+      "id": "model-validity-stated",
+      "severity": "MUST",
+      "question": "Did the LLM state the validity range of its mental model of the plant — i.e., the inputs, sizes, or conditions where the model holds and where it breaks?",
+      "pass_if": "Model validity range is explicit. If a bug contradicts the stated model, the LLM updates the model rather than forcing the plant to match."
     }
   ]
 }

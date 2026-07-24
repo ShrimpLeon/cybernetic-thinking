@@ -56,3 +56,29 @@ behaves the same at n=10 and n=10^7.
   from observables. When debugging "impossible" faults, suspect a state that is observable
   only indirectly. Build the estimator (instrumentation) before concluding the bug is
   untraceable.
+
+## Worked example: unregulated target → open-loop patch
+
+**Before (no x, no u, no observability):**
+```python
+# "Make it better" — what is x? what is u? how will we know?
+def process(data):
+    return data  # placeholder; "fix" the symptom later
+```
+Without naming x and u, every subsequent change is a guess.
+
+**After (closed-loop from the start):**
+```python
+def process(data, max_size=1000):
+    # x = queue depth / error rate; u = max_size
+    # observability: raise if exceeded, count in tests
+    if len(data) > max_size:
+        raise ValueError(f"x exceeded bound: {len(data)} > {max_size}")
+    return data
+```
+
+- x = `len(data)` (controlled variable, must stay ≤ `max_size`)
+- u = `max_size` (the lever we adjust)
+- observability = exception raised, testable
+- bound = `max_size` (actuator saturation respected)
+

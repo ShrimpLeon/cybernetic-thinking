@@ -44,3 +44,46 @@ Operational rules:
 - Deviation `ε` is **bounded** for the largest perturbation you can throw at it (stability, §4.1).
 - Corrections get **smaller**, not larger, over iterations (no limit cycle, no retry storm).
 - The setpoint is reached within the stated bounds (memory, time, rate limit).
+
+## Worked example: analysis before synthesis — cache stampede
+
+**Symptom:** under sudden traffic spike, database CPU spikes to 100%, API returns 503.
+
+**Open-loop (skip analysis):**
+```python
+@app.get("/data/{id}")
+def get_data(id):
+    data = cache.get(id) or db.query(f"SELECT * FROM t WHERE id={id}")
+    return data
+```
+Naive fix (synthesis without analysis): "just add a cache"
+
+**Closed-loop (analysis first):**
+```
+Analyze:
+  x = db CPU utilization; target < 70%
+  u = cache TTL + eviction policy
+  Model: thundering-herd on cache miss → spike proportional to missing-key rate
+  Validity: model holds for any cache with TTL; breaks for in-process unbounded cache
+```
+
+**Stabilize first:**
+```python
+@app.get("/data/{id}")
+def get_data(id):
+    data = cache.get(id)
+    if data is None:
+        with lock:                    # serialize misses per key
+            data = cache.get(id) or db.query(...)
+            cache.set(id, data, ttl=60)
+    return data
+```
+- Lock prevents thundering herd (damps the oscillation).
+- TTL bounds memory.
+
+**Then optimize:**
+- Only after CPU is bounded <70%, consider increasing TTL or adding tiered caching.
+
+Key point: adding a cache *without* the lock in the first patch would have shifted but not
+eliminated the oscillation. Analysis → stabilize → then synthesize = closed loop.
+

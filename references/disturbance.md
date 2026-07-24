@@ -42,6 +42,46 @@ human-in-the-loop. Delay is the enemy of stability.
 - Watch for limit cycles that appear *only* because of the delay (e.g. a retry that fires
   exactly when the late response arrives).
 
+## Worked example: flaky dependency → feedforward + feedback
+
+**Before (feedback only):**
+```python
+def call_external():
+    for attempt in range(5):
+        try:
+            return requests.get(EXTERNAL_URL, timeout=2)
+        except Exception:
+            time.sleep(1)     # fixed backoff — no knowledge of cause
+```
+If the dependency is down for 30 seconds, every call burns 5×2 seconds and still fails.
+The disturbance (dependency outage) is *measurable* — we have a health endpoint — but we
+do not use it. Pure feedback on a delayed, unmeasured disturbance: unstable under load.
+
+**After (composite control):**
+```python
+_healthy = None
+
+def call_external():
+    global _healthy
+    if _healthy is False:
+        raise CircuitBreakerOpen()    # feedforward: fail fast on known outage
+    try:
+        resp = requests.get(EXTERNAL_URL, timeout=2)
+        _healthy = True
+        return resp
+    except Exception:
+        _healthy = False
+        time.sleep(2 ** attempt + random.uniform(0, 0.1))
+        raise
+```
+
+- Feedforward: health check measured at startup and on every failure; known outage → open
+  loop immediately (invariance from the disturbance).
+- Feedback: backoff on transient errors still corrects the trajectory.
+- Composite control: accuracy from invariant relation, stability from feedback.
+
+---
+
 ## Retry storms are unstable delay loops
 
 A retry-without-backoff is a high-gain, zero-damping controller on a delayed plant →

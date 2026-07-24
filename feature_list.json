@@ -6,7 +6,7 @@
       "description": "Create AGENTS.md, progress.md, feature_list.json, session-handoff.md, and init.ps1 for the skill project",
       "dependencies": [],
       "status": "done",
-      "evidence": "All five harness files present in engineering-cybernetics-thinking/"
+      "evidence": "All five harness files present plus CHANGELOG.md and assets/"
     },
     {
       "id": "feat-002",
@@ -21,24 +21,24 @@
       "name": "Add Worked Examples per Reference",
       "description": "Add 2-3 worked before/after code examples to reference files showing the anti-pattern and the control-theoretic correction.",
       "dependencies": ["feat-002"],
-      "status": "not-started",
-      "evidence": ""
+      "status": "done",
+      "evidence": "Added before/after code examples to stability.md (retry storm → damped), disturbance.md (flaky dependency → feedforward+feedback), multivariable.md (shared mutable state → decoupled + beneficial coupling preserved)."
     },
     {
       "id": "feat-004",
       "name": "Extract PDF Excerpts into References",
       "description": "Extract 2-3 page excerpts from 工程控制论.pdf into one or more reference files to ground the skill in the original text directly.",
       "dependencies": ["feat-002"],
-      "status": "not-started",
-      "evidence": ""
+      "status": "done",
+      "evidence": "Added references/original-text.md with 5 direct excerpts from the book (§1.1, §1.5, §3.7, §6.3, §11) mapped to their cognitive-law anchors."
     },
     {
       "id": "feat-005",
-      "name": "Run Full Evals Audit",
-      "description": "Confirm all MUST items in evals/checks.json are relevant and calibrated. No broken markdown links.",
-      "dependencies": ["feat-002"],
-      "status": "not-started",
-      "evidence": ""
+      "name": "Comprehensive Optimization Pass",
+      "description": "SKILL.md/README.md separation per progressive disclosure; extract runtime prompt to assets/; fix YAML frontmatter; unify imperative style; add CHANGELOG.md with XYZ versioning; add model-validity check to evals; update init.ps1.",
+      "dependencies": ["feat-002", "feat-003", "feat-004"],
+      "status": "done",
+      "evidence": "SKILL.md reduced to runtime essentials; assets/runtime-prompt.txt created; references/original-text.md added; CHANGELOG.md created with XYZ versioning; evals/checks.json updated with model-validity-stated MUST check; init.ps1 updated to check all new files; non-standard YAML field removed."
     }
   ]
 }

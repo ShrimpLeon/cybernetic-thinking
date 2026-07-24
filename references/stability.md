@@ -55,6 +55,38 @@ optimization. This is not a suggestion; it is the second cognitive law.
 An LLM must not declare success when a trajectory is unstable. Growing deviation is a
 hard-stop signal, not a minor concern.
 
+## Worked example: retry storm → damped
+
+**Before (unstable):**
+```python
+def fetch(url):
+    for attempt in range(999):          # unbounded loop
+        try:
+            return requests.get(url, timeout=3)
+        except requests.Timeout:
+            continue                    # high gain, zero damping
+```
+No backoff, no circuit breaker, no jitter. Under load this oscillates: concurrent
+retries amplify the load spike → each times out → more retries. Trajectory diverges.
+
+**After (stable):**
+```python
+def fetch(url, max_retries=3):
+    for attempt in range(max_retries):
+        try:
+            return requests.get(url, timeout=3)
+        except requests.Timeout:
+            delay = (2 ** attempt) + random.uniform(0, 0.1)  # exponential + jitter
+            time.sleep(delay)           # damping
+    raise CircuitBreakerOpen()          # open loop before saturation
+```
+
+- Bound on actuator (`max_retries`).
+- Backoff = damping; jitter = break synchronization.
+- Circuit breaker = open loop when service is unhealthy.
+
+---
+
 ## Stabilizing a system
 
 - Linear feedback (§5): `u = −Kx` pulls state back toward target. But simple feedback is not

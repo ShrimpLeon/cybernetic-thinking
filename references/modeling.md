@@ -50,3 +50,38 @@ You rarely have a perfect model of the system you're editing. Three ways to get 
   contradicts your model means the model was wrong, not the bug.
 - Distinguish the *model you use to decide* from the *plant that actually runs*. The gap
   between them is where instability hides.
+
+## Worked example: linear model breaks at scale
+
+**Scenario:** a list-merging function works for n=10 but segfaults at n=10^7.
+
+```python
+def merge(a, b):
+    return a + b          # model: O(n) concatenation, works for small n
+```
+
+**Analysis:**
+- Mental model: "concatenation is cheap; I can use it anywhere"
+- This model breaks at n=10^7 because `a + b` allocates a new list of size `len(a)+len(b)`.
+- Memory spikes → OOM → crash. The model assumed linear cost; reality is linear *coefficient*
+  with a fixed allocation overhead that dominates at scale.
+
+**Correct model (stated validity range):**
+```
+x = memory usage; model = O(n) allocation per merge; valid for n << cache size.
+Breaks when n approaches memory limit.
+```
+
+**Fix informed by correct model:**
+```python
+def merge(a, b, out=None):
+    if out is None:
+        out = []
+    out.extend(a)
+    out.extend(b)           # in-place; model remains valid at scale
+    return out
+```
+
+- Model validity range is now explicit.
+- Bug informed the model update; model informed the fix.
+

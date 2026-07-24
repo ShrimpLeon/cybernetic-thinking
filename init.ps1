@@ -1,4 +1,4 @@
-# init.ps1 — Harness verification for engineering-cybernetics-thinking skill
+# init.ps1 — Harness verification for systems-thinking skill
 # Required by AGENTS.md. Run before claiming a feature done.
 
 param()
@@ -33,8 +33,11 @@ $required = @(
     "references/disturbance.md",
     "references/bounded-control.md",
     "references/discrete-systems.md",
+    "references/original-text.md",
     "templates/debugging-checklist.md",
     "templates/change-proposal.md",
+    "assets/runtime-prompt.txt",
+    "CHANGELOG.md",
     "README.md",
     "SKILL.md",
     "AGENTS.md",

@@ -49,6 +49,60 @@ is uncertain.
 - Example mappings: distributed cache + DB (consistency relation); producer/consumer queues
   (backpressure relation); replicated services (quorum/sync relation).
 
+## Worked example: shared mutable state → harmful coupling / beneficial coupling
+
+**Harmful coupling (before):**
+```python
+# module_a.py
+_counter = 0
+
+def increment():
+    global _counter
+    _counter += 1
+
+# module_b.py  
+from module_a import _counter
+
+def report():
+    return _counter        # reads mutable state module_a owns
+```
+`module_b.report()` correctness depends on `module_a` execution order. Under concurrency
+this is a race condition — the cross-term is nonzero and causes instability. Decouple with
+explicit interface:
+
+**After (decoupled):**
+```python
+# module_a.py
+_state = {"count": 0}
+
+def increment(state):
+    state["count"] += 1
+    return state
+
+# module_b.py — no knowledge of module_a internals
+def report(state):
+    return state["count"]
+```
+
+**Beneficial coupling (preserved):**
+```python
+# Producer/consumer with backpressure (keep this coupling)
+queue = asyncio.Queue(maxsize=100)
+
+async def producer():
+    for item in source():
+        await queue.put(item)     # natural back pressure
+
+async def consumer():
+    while True:
+        item = await queue.get()  # consumption rate regulates production rate
+```
+Removing the queue and calling producer/consumer independently destroys the natural
+coordination. Regulate the *relation* (producer rate ≤ consumer rate), not just each
+absolute.
+
+---
+
 ## Decision rule
 
 - Will interference cause incorrectness or instability? → **decouple** (diagonalize).

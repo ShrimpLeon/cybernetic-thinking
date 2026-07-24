@@ -1,232 +1,396 @@
-# Engineering Cybernetics Thinking / 工程控制论思维
+# systems-thinking
 
-**A control-theoretic thinking scaffold for LLM-assisted software engineering.**
-**为 LLM 辅助软件工程打造的控制论思维脚手架。**
+<!-- Language toggle / 语言切换 -->
 
-Derived from Qian Xuesen (钱学森) & Song Jian (宋健), *Engineering Cybernetics* (工程控制论).
-源自钱学森、宋健《工程控制论》。
-
-Version: v0.1.0 | License: MIT
+> **中文** | [English](#english)
 
 ---
 
-## About / 简介
+## 简介
 
-`engineering-cybernetics-thinking` is a thinking-mode skill that installs a control-theoretic cognitive operating system in the LLM. Instead of producing better patch diffs, it changes **how the model thinks** about systems—state, observability, stability, bounds, coupling—before writing or changing code.
+`systems-thinking` 是一个思维模式 skill。它把控制论的思想装进 LLM 的思考过程里，让模型在写代码、改代码、做架构之前，先想清楚：状态是什么、怎么观测、稳不稳定、边界在哪、耦合怎么处理。
 
-`engineering-cybernetics-thinking` 是一个思维模式 skill，它在 LLM 中安装一套控制论认知操作系统。它不直接产出更好的补丁，而是改变模型在写代码或改代码之前的**思维方式**：先识别状态、观测性、稳定性、边界、耦合，再动手。
+> **一句话：用系统视角写代码——先识别状态，再动手，最后闭环验证。**
 
-This is not a vocabulary test for humans, and not a bug-hunting playbook. It is a scaffold that reframes every non-trivial change from *"write the smallest patch and hope"* to *identify the state, measure the trajectory, stabilize the plant, then steer*.
+这不是给人类做的知识测试，也不是一本排错手册。它是一个脚手架，改变的是模型**怎么想**，而不是怎么拼 diff。
 
-这不是人类的词汇测试，也不是排错手册。它是一个脚手架，把每一次非平凡的改动从“写最小补丁然后祈祷”重构为“先识别状态、测量轨迹、稳定被控对象、再施加控制”。
+源自钱学森、宋健《工程控制论》。语言和框架无关，拿来就能用。
 
-**Prime directive:** a program is a dynamical system `x(t)` with partial observability; the developer is the controller `u(t)`. Every change injects a control signal. Bugs are unstable or poorly-damped trajectories. Debugging is state estimation. Tests are sensors feeding a feedback loop. **Closed loop beats open loop.**
+## 它解决什么问题
 
-**核心原则：** 程序是一个部分可观测的动态系统 `x(t)`；开发者是控制器 `u(t)`。每一次改动都在注入控制信号。bug 是不稳定或欠阻尼的轨迹。调试就是状态估计。测试是反馈回路的传感器。**闭环优于开环。**
+写代码时常见的做法是：先动手，再祈祷测试能过。这个 skill 要改变的是这个顺序。
 
----
+它特别适合这些场景：
 
-## Features / 特性
+- 改一段你不完全理解的遗留代码
+- 调试一个时好时坏、复现不了的问题
+- 重构几个互相牵制的模块
+- 做任何"既要正确又要稳"的改动
 
-- **Language- and framework-agnostic** — works with any stack, any language, any architecture. 语言和框架无关。
-- **Self-contained** — no other skill required; installs as a single thinking-mode scaffold. 自包含，无需其他 skill。
-- **Cognitive-laws based** — distills 8 engineering insights into concrete LLM behavior constraints. 基于 8 条认知法则。
-- **Templates included** — copyable debugging checklist and change-proposal scaffolds. 内含可复制模板。
-- **Self-auditable** — `evals/checks.json` provides MUST/SHOULD checks an LLM or reviewer applies to confirm discipline was followed. 可自审计。
-- **Deep-dive references** — 8 reference files anchored to the original text, each with LLM behavior patterns. 8 篇深度参考文献，每篇附 LLM 行为模式。
+在这些场景里，"写个最小补丁"往往不够。你需要先搞清楚系统的状态，再动手。
 
----
+## 核心思想
 
-## Installation / 安装
+一句话：**程序是一个动态系统，你是控制器。**
 
-This skill is designed for AI coding agents that support custom skills (e.g., Kilo, Claude Code, Aider, Cursor). Install by copying the skill directory into the agent's skills folder.
+每次改动都在往系统里注入一个控制信号。你只能部分观测系统的真实状态。bug 是不稳定或欠阻尼的轨迹。调试就是状态估计。测试是反馈回路的传感器。**闭环永远比开环好。**
 
-本 skill 专为支持自定义 skill 的 AI 编程助手设计（如 Kilo、Claude Code、Aider、Cursor）。将 skill 目录复制到助手的 skills 文件夹即可安装。
+## 安装
 
-### Option A: Direct copy / 直接复制
+本 skill 面向支持自定义 skill 的 AI 编程助手（Kilo、Claude Code、Aider、Cursor 等）。
 
-```
-cp -r engineering-cybernetics-thinking <agent-skills-dir>/
-```
-
-### Option B: Symlink (development) / 符号链接（开发）
-
-```
-ln -s /absolute/path/to/engineering-cybernetics-thinking <agent-skills-dir>/
-```
-
-### Agent-specific notes / 各助手说明
-
-| Agent | Path / 路径 |
-|---|---|
-| Kilo | `~/.config/kilo/skills/` or project `.kilo/agent/` |
-| Claude Code | `~/.claude/plugins/custom-skills/` or project `.claude/` |
-| Aider | `--skills-dir` flag |
-| Cursor | Project `.cursor/rules/` or global settings |
-
-### Verify installation / 验证安装
+### 直接复制
 
 ```bash
-# Run the harness verification script
+cp -r systems-thinking <agent-skills-dir>/
+```
+
+### 符号链接（开发用）
+
+```bash
+ln -s /absolute/path/to/systems-thinking <agent-skills-dir>/
+```
+
+### 各助手路径参考
+
+| 助手 | 路径 |
+|---|---|
+| Kilo | `~/.config/kilo/skills/` 或项目内 `.kilo/agent/` |
+| Claude Code | `~/.claude/plugins/custom-skills/` 或项目内 `.claude/` |
+| Aider | 使用 `--skills-dir` 参数 |
+| Cursor | 项目内 `.cursor/rules/` 或全局设置 |
+
+### 验证安装
+
+```bash
 pwsh init.ps1
 ```
 
-Expected output: `Verification Complete — OK`
+看到 `Verification Complete — OK` 就说明装好了。
+
+## 使用方式
+
+### 1. 触发时机
+
+在涉及以下任务时加载本 skill：
+
+- 架构设计
+- 调试非确定性行为
+- 跨模块重构
+- 任何"正确且稳健必须同时满足"的改动
+
+### 2. 读 SKILL.md
+
+先读 `SKILL.md`，里面的运行时提示块会安装认知法则。下面的工作流是自然延伸。
+
+### 3. 动手之前，先命名
+
+改代码之前，必须说清楚四个东西：
+
+- `x` — 被控变量，什么必须保持正确
+- `u` — 控制变量，你实际会动的那个杠杆
+- 可观测性 — 你怎么知道 `x` 的当前值
+- 边界 — 每个执行器都会饱和，不接受无界循环
+
+### 4. 七步循环
+
+| 步骤 | 原则 | 参考文件 |
+|---|---|---|
+| 1 | 识别：命名 `x`、`u`、可观测性、边界 | `references/state-and-control.md` |
+| 2 | 分析：复现、测量、定位故障、建立模型 | `references/modeling.md` |
+| 3 | 稳定：在加新功能之前先消灭发散/振荡/泄露 | `references/stability.md` |
+| 4 | 综合：最小 `u`；解耦有害，协调有益 | `references/multivariable.md` |
+| 5 | 闭环：观察实际结果，修正直到偏差有界 | `references/closed-loop-workflow.md` |
+| 6 | 补偿：可测扰动用前馈；有延迟就加阻尼 | `references/disturbance.md` |
+| 7 | 优化：稳定之后才谈性能调优 | `references/bounded-control.md` |
+
+涉及采样和测试节奏的问题，额外参考 `references/discrete-systems.md`。
+
+### 5. 模板
+
+以下文件位于 skill 安装目录下的 `templates/` 子目录中：
+
+- **调试时**：把 `templates/debugging-checklist.md` 复制进会话
+- **规划改动时**：用 `templates/change-proposal.md` 写控制计划
+
+### 6. 自审计
+
+宣布完成之前，必须通过 `evals/checks.json` 中所有的 MUST 检查项。
+
+## 认知法则
+
+这个 skill 强制执行 8 条认知法则：
+
+1. 先命名 `x` 再命名 `u`。没名字的目标就没法调节。
+2. 先观测再猜测。综合方案之前先测量当前行为。
+3. 稳定优先于优化。扰动下发散就是失败。
+4. 闭环。观察实际结果，不断修正直到偏差有界。
+5. 可测扰动用前馈，其余用反馈。绝不在延迟回路上提高增益。
+6. 解耦有害耦合，协调有益耦合。调节关系，不只是绝对值。
+7. 最小控制。移动 `x` 到目标所需的最小 `u`，不搞投机性额外操作。
+8. 收敛。修正幅度必须越来越小。如果越来越大，说明不稳定——停下来重新识别。
+
+## 工作示例
+
+**问题**：一个 API 接口在负载下间歇性返回 500。
+
+| 步骤 | 控制论行动 |
+|---|---|
+| 识别 | `x` = 错误率；`u` = 重试/超时/缓存逻辑；边界 = 请求预算。 |
+| 分析 | 在负载下复现；测量错误率随并发上升（不稳定）。 |
+| 稳定 | 加熔断器 + 带退避的有界重试 → 错误率有界。 |
+| 综合 | 最小改动，不要重写服务。 |
+| 闭环 | 再次压测；错误率收敛到接近 0。 |
+| 补偿 | 对可测依赖故障快速失败（前馈）+ 其余用反馈。 |
+| 优化 | 此时才 trim p99 延迟。 |
+
+**没有这套视角的常见失败**：无限制加重试 → 重试风暴（不稳定延迟环）→ 比原来更糟。
+
+## 参考文件
+
+8 篇深度参考，每篇对应一个控制论原则，附带 LLM 行为模式说明：
+
+| 主题 | 文件 |
+|---|---|
+| 闭环工作流 | `references/closed-loop-workflow.md` |
+| 状态、控制、可观测性、边界 | `references/state-and-control.md` |
+| 稳定性 | `references/stability.md` |
+| 建模与模型有效性 | `references/modeling.md` |
+| 多变量：解耦与协调 | `references/multivariable.md` |
+| 扰动补偿与时延 | `references/disturbance.md` |
+| 有界控制 | `references/bounded-control.md` |
+| 离散系统与测试节奏 | `references/discrete-systems.md` |
+
+## 自审计
+
+`evals/checks.json` 列出了一组 MUST/SHOULD 检查项，供 LLM 或评审者确认思维 discipline 被遵循。在所有 MUST 项通过之前，不得宣布任务完成。
+
+## 贡献
+
+- `SKILL.md` 中的每条主张都必须追溯到某个参考文件
+- 每个引用链接必须能解析到存在的文件
+- 保持 skill 精简，与原著保持一致
+- 提交前运行 `./init.ps1`
+
+完整工作规则见 `AGENTS.md`。
+
+## 版本
+
+本 skill 遵循 [Semantic Versioning](https://semver.org/)（`X.Y.Z`）。
+
+| 版本 | 日期 | 说明 |
+|---|---|---|
+| 0.1.0 | 2026-07-24 | 首次公开发布 |
+
+完整变更记录见 [CHANGELOG.md](CHANGELOG.md)。
+
+## 协议
+
+MIT License。详见 [LICENSE](LICENSE)。
 
 ---
 
-## Usage / 使用
+## Source
 
-### 1. Load the skill / 加载 skill
+Qian Xuesen (Tsien Hsue-shen‌; 钱学森) & Song Jian (宋健), *Engineering Cybernetics* (工程控制论). The original book and its mathematical foundations are the authoritative source; this skill is a faithful interpretation, not a replacement.
 
-Trigger the skill when the task involves architecture, debugging non-deterministic systems, refactoring coupled modules, or any change where correctness AND robustness matter.
+---
 
-在涉及架构设计、调试非确定性系统、重构耦合模块，或任何“正确且稳健”必须同时满足的任务时，触发本 skill。
+<br/><br/>
 
-### 2. Read the runtime prompt block / 读取运行时提示块
+---
 
-Read `SKILL.md` first; the runtime prompt block installs the cognitive laws. The workflow below is a downstream consequence.
+<a name="english"></a>
 
-先读 `SKILL.md`；运行时提示块会安装认知法则。下面的工作流是自然结果。
+<!-- Language toggle / 语言切换 -->
 
-### 3. Name the variables / 命名变量
+> [中文](#简介) | **English**
 
-Before proposing any change, the LLM must name:
+---
 
-- `x` — the controlled variable (what must stay correct) — 被控变量（什么必须保持正确）
-- `u` — the control variable (the lever you will actually move) — 控制变量（你实际会动的杠杆）
-- Observability — how will you measure `x`? — 可观测性：如何测量 `x`？
-- Bounds — every actuator saturates; no unbounded loop is acceptable. — 边界：每个执行器都会饱和；不接受无界循环。
+## About
 
-### 4. Run the 7-step loop / 运行 7 步循环
+`systems-thinking` is a thinking-mode skill. It installs a control-theoretic cognitive operating system in the LLM—shaping how the model *thinks* about systems (state, observability, stability, bounds, coupling) before writing or changing code.
 
-| Step | Principle / 原则 | Reference |
+> **One-line pitch: Control-theoretic thinking for code—know your state before you touch it.**
+
+This is not a vocabulary test for humans, and not a bug-hunting playbook. It is a scaffold that reframes every non-trivial change from *"write the smallest patch and hope"* to *identify the state, measure the trajectory, stabilize the plant, then steer*.
+
+Derived from Qian Xuesen & Song Jian, *Engineering Cybernetics* (工程控制论). Language- and framework-agnostic. Self-contained.
+
+## What it solves
+
+The default approach to coding is: start typing, then pray the tests pass. This skill changes that order.
+
+It fits best when:
+
+- You're changing legacy code you don't fully understand
+- You're debugging something that breaks intermittently and can't be reproduced reliably
+- You're refactoring modules that are tangled together
+- A change needs to be both correct and robust
+
+In these situations, "write the smallest patch" is often not enough. You need to understand the system's state first.
+
+## Core idea
+
+One sentence: **a program is a dynamical system, and you are the controller.**
+
+Every change injects a control signal. You only partially observe the true state. Bugs are unstable or poorly-damped trajectories. Debugging is state estimation. Tests are sensors feeding a feedback loop. **Closed loop beats open loop.**
+
+## Installation
+
+This skill is designed for AI coding agents that support custom skills (Kilo, Claude Code, Aider, Cursor, etc.).
+
+### Direct copy
+
+```bash
+cp -r systems-thinking <agent-skills-dir>/
+```
+
+### Symlink (development)
+
+```bash
+ln -s /absolute/path/to/systems-thinking <agent-skills-dir>/
+```
+
+### Agent paths
+
+| Agent | Path |
+|---|---|
+| Kilo | `~/.config/kilo/skills/` or `.kilo/agent/` in project |
+| Claude Code | `~/.claude/plugins/custom-skills/` or `.claude/` in project |
+| Aider | `--skills-dir` flag |
+| Cursor | `.cursor/rules/` in project or global settings |
+
+### Verify
+
+```bash
+pwsh init.ps1
+```
+
+Look for `Verification Complete — OK`.
+
+## Usage
+
+### 1. When to load
+
+Load this skill when the task involves:
+
+- Architecture design
+- Debugging non-deterministic behavior
+- Cross-module refactoring
+- Any change where correctness AND robustness both matter
+
+### 2. Read SKILL.md
+
+Read `SKILL.md` first. The runtime prompt block installs the cognitive laws. The workflow below follows naturally.
+
+### 3. Name things before touching code
+
+Before proposing any change, the LLM must name four things:
+
+- `x` — the controlled variable (what must stay correct)
+- `u` — the control variable (the lever you will actually move)
+- Observability — how will you know the current value of `x`?
+- Bounds — every actuator saturates; no unbounded loop is acceptable
+
+### 4. Seven-step loop
+
+| Step | Principle | Reference |
 |---|---|---|
-| 1 | Identify — name `x`, `u`, observability, bounds. 识别。 | `references/state-and-control.md` |
-| 2 | Analyze — reproduce, measure, locate fault, state the model. 分析。 | `references/modeling.md` |
-| 3 | Stabilize — kill divergence / oscillation / leaks before features. 稳定。 | `references/stability.md` |
-| 4 | Synthesize — minimal `u`; decouple what hurts, coordinate what helps. 综合。 | `references/multivariable.md` |
-| 5 | Close the loop — observe actual result; correct until bounded. 闭环。 | `references/closed-loop-workflow.md` |
-| 6 | Compensate — feedforward measurable disturbances; clamp the actuator. 补偿。 | `references/disturbance.md` |
-| 7 | Optimize — only then tune secondary indicators. 优化。 | `references/bounded-control.md` |
+| 1 | Identify — name `x`, `u`, observability, bounds. | `references/state-and-control.md` |
+| 2 | Analyze — reproduce, measure, locate fault, state the model. | `references/modeling.md` |
+| 3 | Stabilize — kill divergence / oscillation / leaks before features. | `references/stability.md` |
+| 4 | Synthesize — minimal `u`; decouple what hurts, coordinate what helps. | `references/multivariable.md` |
+| 5 | Close the loop — observe actual result; correct until bounded. | `references/closed-loop-workflow.md` |
+| 6 | Compensate — feedforward measurable disturbances; clamp the actuator. | `references/disturbance.md` |
+| 7 | Optimize — only then tune secondary indicators. | `references/bounded-control.md` |
 
-For sampled/test-cadence concerns, also consult `references/discrete-systems.md`.
+For sampled-system and test-cadence concerns, also see `references/discrete-systems.md`.
 
-### 5. Use templates / 使用模板
+### 5. Templates
 
-- Debugging: copy `templates/debugging-checklist.md` into the session. 调试：将 `templates/debugging-checklist.md` 复制到会话中。
-- Planning: use `templates/change-proposal.md` to plan a change. 规划：用 `templates/change-proposal.md` 规划改动。
+These files are located in the skill's `templates/` directory (relative to the skill
+installation root).
 
-### 6. Self-audit / 自审计
+- **Debugging**: copy `templates/debugging-checklist.md` into the session.
+- **Planning**: use `templates/change-proposal.md` to write a control plan.
+
+### 6. Self-audit
 
 Before declaring done, pass all MUST checks in `evals/checks.json`.
 
-在宣布完成之前，必须通过 `evals/checks.json` 中的所有 MUST 检查项。
+## Cognitive laws
 
----
+The skill enforces 8 cognitive laws:
 
-## Principle Map / 原则地图
+1. Name `x` before `u`. Unnamed targets are unregulated.
+2. Observe before you guess. Measure current behavior before synthesizing the fix.
+3. Stabilize before you optimize. Divergence under perturbation is failure.
+4. Close the loop. Observe the actual result; correct until deviation is bounded.
+5. Feedforward measurable disturbances; feedback the rest. Never crank gain on delay.
+6. Decouple harmful coupling. Coordinate beneficial coupling. Regulate relations, not just absolutes.
+7. Minimal control. The smallest `u` that moves `x` to target. No speculative extras.
+8. Convergence: corrections must shrink. If they grow, you are unstable — stop and re-identify.
 
-| # | Principle | Book Anchor | Reference |
-|---|---|---|---|
-| 0 | Closed loop over open loop | §3.7 | `references/closed-loop-workflow.md` |
-| 1 | State, control, observability, bounds | §1.5 | `references/state-and-control.md` |
-| 2 | Stability before everything | §1.1, §4.1 | `references/stability.md` |
-| 3 | Model deliberately; know where it breaks | §1.4, §1.6 | `references/modeling.md` |
-| 4 | Analysis before synthesis | §1.5, §4 | `references/closed-loop-workflow.md` |
-| 5 | Decouple what hurts, coordinate what helps | §6 | `references/multivariable.md` |
-| 6 | Disturbance compensation + time-delay | §6.7, §11 | `references/disturbance.md` |
-| 7 | Time-optimal, bounded control | §8, §9.6 | `references/bounded-control.md` |
-| 8 | Discrete / sampled systems & test cadence | §10 | `references/discrete-systems.md` |
-
----
-
-## Quality Bar / 质量门槛
-
-`evals/checks.json` lists concrete pass/fail checks (MUST/SHOULD) an LLM or reviewer applies to confirm the discipline was followed. All MUST items must pass before a task is called done.
-
-`evals/checks.json` 列出了具体的通过/失败检查项（MUST/SHOULD），供 LLM 或评审者确认思维 discipline 已被遵循。在所有 MUST 项通过之前，不得宣布任务完成。
-
-### Cognitive laws enforced / 强制的认知法则
-
-1. Name `x` before `u`. Unnamed targets are unregulated. 先命名 `x` 再命名 `u`。未命名的目标无法调节。
-2. Observe before you guess. Measure current behavior before synthesizing the fix. 先观测再猜测。综合方案之前先测量当前行为。
-3. Stabilize before you optimize. Divergence under perturbation is failure. 稳定优先于优化。扰动下发散就是失败。
-4. Close the loop. Observe the actual result; correct until deviation is bounded. 闭环。观察实际结果；不断修正直到偏差有界。
-5. Feedforward measurable disturbances; feedback the rest. Never crank gain on delay. 前馈可测扰动；其余用反馈。绝不在延迟回路上提高增益。
-6. Decouple harmful coupling. Coordinate beneficial coupling. Regulate relations, not just absolutes. 解耦有害耦合，协调有益耦合。调节关系，不仅是绝对值。
-7. Minimal control. The smallest `u` that moves `x` to target. No speculative extras. 最小控制。移动 `x` 到目标所需的最小 `u`。无投机性额外操作。
-8. Convergence: corrections must shrink. If they grow, you are unstable — stop and re-identify. 收敛：修正必须缩小。如果增大，说明不稳定——停下来重新识别。
-
----
-
-## Worked Example / 工作示例
+## Worked example
 
 **Symptom:** an API endpoint intermittently returns 500 under load.
 
-**症状：** 一个 API 端点在高负载下间歇性返回 500。
+| Step | Control-theoretic action |
+|---|---|
+| Identify | `x` = error rate; `u` = retry/timeout/cache logic; bound = request budget. |
+| Analyze | Reproduce under load; measure that error rate climbs with concurrency (unstable). |
+| Stabilize | Add circuit breaker + bounded retries with backoff → error rate bounded. |
+| Synthesize | Minimal change; don't rewrite the service. |
+| Close the loop | Load-test again; error rate now converges to ~0. |
+| Compensate | Feedforward on measurable dependency outage (fail fast) + feedback on the rest. |
+| Optimize | Only now trim p99 latency. |
 
-| Step | Control-theoretic action | 控制论行动 |
-|---|---|---|
-| Identify | `x` = error rate; `u` = retry/timeout/cache logic; bound = request budget. | `x` = 错误率；`u` = 重试/超时/缓存逻辑；边界 = 请求预算。 |
-| Analyze | Reproduce under load; measure that error rate climbs with concurrency (unstable). | 在负载下复现；测量错误率随并发上升（不稳定）。 |
-| Stabilize | Add circuit breaker + bounded retries with backoff → error rate bounded. | 增加熔断器 + 带退避的有界重试 → 错误率有界。 |
-| Synthesize | Minimal change; don't rewrite the service. | 最小改动；不要重写服务。 |
-| Close the loop | Load-test again; error rate now converges to ~0. | 再次负载测试；错误率收敛到 ~0。 |
-| Compensate | Feedforward on measurable dependency outage (fail fast) + feedback on the rest. | 对可测依赖故障前馈（快速失败）+ 其余反馈。 |
-| Optimize | Only now trim p99 latency. | 此时才优化 p99 延迟。 |
+**Without this lens:** add retries with no bound → retry storm (an unstable delay loop) → worse than before.
 
-**Without this lens the common failure is:** add retries with no bound → retry storm (an unstable delay loop) → worse than before.
+## References
 
-**没有这个视角的常见失败：** 无界地增加重试 → 重试风暴（不稳定的延迟环）→ 比原来更糟。
+8 deep-dive references, each anchored to the original text with LLM behavior patterns:
 
----
+| Topic | File |
+|---|---|
+| Closed-loop workflow | `references/closed-loop-workflow.md` |
+| State, control, observability, bounds | `references/state-and-control.md` |
+| Stability | `references/stability.md` |
+| Modeling and model validity | `references/modeling.md` |
+| Multivariable: decouple and coordinate | `references/multivariable.md` |
+| Disturbance compensation and time-delay | `references/disturbance.md` |
+| Bounded control | `references/bounded-control.md` |
+| Discrete systems and test cadence | `references/discrete-systems.md` |
 
-## Contributing / 贡献
+## Self-audit
 
-This skill is a faithful interpretation of the original text, not a replacement. Contributions should:
+`evals/checks.json` lists concrete MUST/SHOULD checks an LLM or reviewer applies to confirm the discipline was followed. All MUST items must pass before a task is called done.
 
-本 skill 是对原著的忠实阐释，不是替代。贡献应遵循：
+## Contributing
 
-- Trace every claim in `SKILL.md` to a reference file. `SKILL.md` 中的每条主张都追溯到参考文献。
-- Ensure every reference link resolves to an existing file. 确保每个引用链接都解析到存在的文件。
-- Keep the skill small and aligned to the book. 保持 skill 精简且与原著一致。
-- Run `./init.ps1` before submitting. 提交前运行 `./init.ps1`。
+- Every claim in `SKILL.md` must trace to a reference file.
+- Every reference link must resolve to an existing file.
+- Keep the skill small and aligned to the book.
+- Run `./init.ps1` before submitting.
 
 See `AGENTS.md` for the full working rules and definition of done.
 
-完整工作规则和完成标准见 `AGENTS.md`。
+## Version
 
----
-
-## Version / 版本
+This skill follows [Semantic Versioning](https://semver.org/) (`X.Y.Z`).
 
 | Version | Date | Notes |
 |---|---|---|
-| v0.1.0 | 2026-07-24 | Initial public release: thinking-mode scaffold, 8 references, templates, evals. 首次公开发布。 |
+| 0.1.0 | 2026-07-24 | Initial public release |
 
----
+Full history: [CHANGELOG.md](CHANGELOG.md).
 
-## License / 协议
+## License
 
 MIT License. See [LICENSE](LICENSE) for details.
 
-MIT 协议。详见 [LICENSE](LICENSE) 文件。
+## Source
 
----
-
-## Source / 来源
-
-Qian Xuesen (钱学森) & Song Jian (宋健), *Engineering Cybernetics* (工程控制论). The original book and its mathematical foundations are the authoritative source; this skill is a faithful interpretation, not a replacement.
-
-钱学森、宋健，《工程控制论》。原著及其数学基础是权威来源；本 skill 是忠实阐释，不是替代。
-
----
-
-## See Also / 另见
-
-- `SKILL.md` — entry point, trigger conditions, runtime prompt block
-- `references/` — deep dives into each control-theoretic principle
-- `templates/` — copyable debugging checklist and change proposal
-- `evals/checks.json` — self-audit checklist
-- `AGENTS.md` — harness working rules for agents working on this repo
+Derived from Qian Xuesen (钱学森) & Song Jian (宋健), *Engineering Cybernetics* (工程控制论). The original book and its mathematical foundations are the authoritative source; this skill is a faithful interpretation, not a replacement.

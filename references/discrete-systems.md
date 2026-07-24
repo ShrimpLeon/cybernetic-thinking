@@ -47,3 +47,33 @@ systems with fast dynamics.
 
 The LLM must vary test scale and frequency when assessing stability. A single golden-path
 test at low frequency is not observability; it is a sample that may miss the true dynamics.
+
+## Worked example: weekly test passes, daily test reveals oscillation
+
+**Symptom:** a data pipeline passes end-to-end test when run manually, but downstream teams
+report stale data every morning.
+
+```python
+# pipeline runs once a day; test runs manually on demand
+def run_pipeline():
+    ...
+```
+- Sampling rate: 1× per day (coarse)
+- True dynamics: cache TTL = 1 hour; data freshness degrades within hours → oscillation
+  between "fresh" and "stale" every hour
+- Weekly manual test catches only one sample point — coincidentally fresh — masking the
+  daily limit cycle
+
+**Fix (tighten the loop):**
+```python
+# Hourly CI job + explicit freshness assertion
+def run_pipeline():
+    ...
+    assert freshness_hours() < 2, f"Data stale: {freshness_hours()}h"
+
+# Hourly cron in CI; alert on assertion failure
+```
+- Sample rate increased from daily to hourly.
+- True limit cycle (1-hour) now falls within the sampling window and is detectable.
+- Observability: assertion converts invisible state (freshness) into a measurable signal.
+

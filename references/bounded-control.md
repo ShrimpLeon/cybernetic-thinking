@@ -56,3 +56,27 @@ These ideas apply identically whether the "plant" is a web service, a data pipel
 compiler pass, or an LLM agent loop: every one has bounded actuators and a cost to minimize
 over time. The physical vocabulary (thrust, valve) is illustrative only — the invariant is
 *bounded, goal-directed control*.
+
+## Worked example: uncontrolled recursion → stack overflow
+
+**Before (no bound on actuator):**
+```python
+def walk(node):
+    for child in node.children:
+        walk(child)         # actuator: recursion depth — unbounded!
+```
+Circular reference in `node.children` → unbounded recursion → `RecursionError` /
+stack overflow. The actuator (call stack) has a hard saturation, but the code ignores it.
+
+**After (clamped actuator):**
+```python
+def walk(node, _depth=0, max_depth=100):
+    if _depth >= max_depth:
+        raise ValueError(f"Actuator saturated: depth {_depth} >= {max_depth}")
+    for child in node.children:
+        walk(child, _depth + 1, max_depth)
+```
+- Bound: `max_depth=100` (explicit actuator clamp).
+- Graceful degradation: exception at bound instead of silent crash.
+- Cost: O(n) with bounded cost per call; integral cost stays predictable.
+
