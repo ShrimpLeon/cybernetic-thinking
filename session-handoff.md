@@ -2,8 +2,8 @@
 
 ## Current Objective
 
-- Goal: Complete all planned optimization and renaming work; verify clean state.
-- Current status: ALL features complete (feat-001 through feat-005).
+- Goal: Add npm install instructions to README, optimize for multi-agent installation, ensure npm compatibility across AI agents.
+- Current status: ALL features complete (feat-001 through feat-006).
 - Branch / commit:
 
 ## Completed This Session
@@ -12,16 +12,13 @@
 - [x] feat-002 — Restructure Skill as Thinking-Mode Scaffold
 - [x] feat-003 — Worked examples added to all 8 reference files
 - [x] feat-004 — `references/original-text.md` added (5 book excerpts)
-- [x] feat-005 — Comprehensive optimization + rename to `systems-thinking`:
-  - SKILL.md / README.md separation per progressive disclosure
-  - `assets/runtime-prompt.txt` extracted
-  - Non-standard YAML field removed
-  - Imperative style unified
-  - `CHANGELOG.md` created with XYZ SemVer
-  - `model-validity-stated` MUST check added
-  - `templates/` path references clarified in SKILL.md + README.md
-  - One-line pitches added (中文 + English)
-  - Name changed from `engineering-cybernetics-thinking` → `systems-thinking` everywhere
+- [x] feat-005 — Comprehensive optimization + rename to `systems-thinking`
+- [x] feat-006 — npm install + multi-agent README support:
+  - README.md Installation section restructured with npm install as primary method
+  - GitHub download kept as alternative installation path
+  - Agent-specific symlink commands for 8 agents (Kilo, Claude Code, Aider, Cursor, OpenAI Codex, GitHub Copilot, Windsurf, Zed)
+  - Compatibility matrix added in both 中文 and English sections
+  - package.json updated with postinstall script, verify script, expanded keywords, main field, init.ps1 in files array
 
 ## Verification Evidence
 
@@ -29,42 +26,30 @@
 |---|---|---|---|
 | Harness | `powershell -ExecutionPolicy Bypass -File init.ps1` | PASS | 20/20 files present; JSON valid |
 | JSON | `python -m json.tool evals/checks.json` | PASS | |
-| Links | cross-file markdown link check | PASS | no broken links |
-| Old name | `rg engineering[-_]cybernetics` | zero matches | fully renamed |
-| Worked examples | grep all 8 references for "Worked example" | PASS | all 8 present |
+| JSON | `python -m json.tool package.json` | PASS | |
+| JSON | `python -m json.tool feature_list.json` | PASS | |
+| npm pack | `npm pack --dry-run` | PASS | 19 files, init.ps1 included |
+| Cross-file links | manual check | PASS | no broken links |
 
 ## Files Changed This Session
 
-- `SKILL.md` — renamed, slimmed, title added, templates/ clarified, imperative style
-- `README.md` — renamed, versions to 0.1.0, one-line pitches, templates/ clarified
-- `evals/checks.json` — skill field renamed; model-valididity-stated MUST added
-- `init.ps1` — renamed; 20-file check
-- `feature_list.json` — all 5 features marked done
-- `progress.md` — updated with full session evidence
-- `references/state-and-control.md` — worked example added
-- `references/modeling.md` — worked example added
-- `references/bounded-control.md` — worked example added
-- `references/discrete-systems.md` — worked example added
-- `references/closed-loop-workflow.md` — worked example added
-- `references/original-text.md` — new file (feat-004)
-- `assets/runtime-prompt.txt` — new file
-- `CHANGELOG.md` — new file with XYZ versioning
+- `README.md` — npm install section added (中文 + English), GitHub download kept, agent-specific symlink commands for 8 agents, compatibility matrix added in both languages
+- `package.json` — added `main` field, `postinstall` script, `verify` script, expanded keywords (14 vs 5), `init.ps1` added to `files` array
+- `feature_list.json` — feat-006 added with evidence
+- `progress.md` — feat-006 marked done with full details
 - `session-handoff.md` — this update
-- `AGENTS.md` — renamed references
-- `LICENSE` — copyright line renamed
 
 ## Decisions Made
 
-- **Thinking-mode pivot**: skill is explicitly a cognitive scaffold for LLMs.
-- **Progressive disclosure**: SKILL.md = runtime essentials; README.md = human docs; references = deep dives.
-- **XYZ SemVer**: `X.Y.Z` with CHANGELOG.md; initial release `0.1.0`.
-- **Name**: `systems-thinking`; systems thinking is the core insight, control theory is the toolkit.
-- **Evidence-first**: every SKILL.md claim traces to a reference; original-text.md provides direct book grounding.
+- **npm as primary install method**: npm install is now the recommended approach, with GitHub download as an alternative
+- **Symbolic linking required after npm install**: npm package deploys to `node_modules/skill-systems-thinking/`, then users symlink to agent-specific directories — this keeps the npm package agent-agnostic
+- **8 agents supported**: Kilo, Claude Code, Aider, Cursor, OpenAI Codex, GitHub Copilot, Windsurf, Zed — with extensibility note for any agent that can load from arbitrary directories
+- **postinstall script**: simple cross-platform message pointing users to link the package and run `pwsh init.ps1`
 
 ## Blockers / Risks
 
 - No current blockers.
-- Low risk: YAML `title` field is non-standard but harmless to standard loaders.
+- The npm package does not include agent-specific config files (`.kilo/`, `.claude/`, etc.) — users must manually symlink. This is intentional to keep the package agent-agnostic.
 
 ## Next Session Startup
 
@@ -75,5 +60,4 @@
 
 ## Recommended Next Step
 
-- Skill is feature-complete for v0.1.0. Next: real-world usage testing; consider packaging for distribution or adding more worked examples based on observed gaps.
-- If distributing: run `scripts/package_skill.py <path/to/systems-thinking>` from the skill-creator tooling.
+- Skill is feature-complete for v0.1.0 with npm distribution support. Next: publish a new npm version (0.1.1 or 0.2.0) with the updated package.json and README, or test the npm install flow end-to-end with a real agent.

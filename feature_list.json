@@ -38,7 +38,15 @@
       "description": "SKILL.md/README.md separation per progressive disclosure; extract runtime prompt to assets/; fix YAML frontmatter; unify imperative style; add CHANGELOG.md with XYZ versioning; add model-validity check to evals; update init.ps1.",
       "dependencies": ["feat-002", "feat-003", "feat-004"],
       "status": "done",
-      "evidence": "SKILL.md reduced to runtime essentials; assets/runtime-prompt.txt created; references/original-text.md added; CHANGELOG.md created with XYZ versioning; evals/checks.json updated with model-validity-stated MUST check; init.ps1 updated to check all new files; non-standard YAML field removed."
+      "evidence": "SKILL.md reduced to runtime essentials; assets/runtime-prompt.txt created; references/original-text.md added; CHANGELOG.md created with XYZ SemVer; evals/checks.json updated with model-validity-stated MUST check; init.ps1 updated to check all new files; non-standard YAML field removed."
+    },
+    {
+      "id": "feat-006",
+      "name": "npm install + multi-agent README support",
+      "description": "Add npm install instructions to README alongside GitHub download, optimize README for multi-agent installation with agent-specific setup paths and compatibility matrix, update package.json with postinstall script and expanded keywords for cross-agent discoverability.",
+      "dependencies": ["feat-005"],
+      "status": "done",
+      "evidence": "README.md updated with npm install section, agent-specific symlink commands for 8 agents, compatibility matrix in both 中文 and English; package.json updated with postinstall script, verify script, expanded keywords, main field, and init.ps1 in files array."
     }
   ]
 }

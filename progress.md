@@ -2,9 +2,9 @@
 
 ## Current State
 
-**Last Updated:** 2026-07-24 21:00
+**Last Updated:** 2026-07-24 21:52
 **Session ID:** [optional]
-**Active Feature:** feat-005 — Comprehensive Optimization Pass (complete)
+**Active Feature:** feat-006 — npm install + multi-agent README support (complete)
 
 ## Status
 
@@ -37,6 +37,11 @@
   - `init.ps1` expanded to verify 20 files including new assets/references
   - All `templates/` references clarified in SKILL.md and README.md with install-path context
   - One-line pitches added to both 中文 and English README sections (`title: Systems Thinking`)
+- [x] feat-006 — npm install + multi-agent README support:
+  - README.md Installation section restructured with npm install as primary method, GitHub download as alternative
+  - Agent-specific symlink commands added for 8 agents (Kilo, Claude Code, Aider, Cursor, OpenAI Codex, GitHub Copilot, Windsurf, Zed)
+  - Compatibility matrix added in both 中文 and English sections
+  - package.json updated: postinstall script, verify script, expanded keywords, main field, init.ps1 in files array
 
 ### What's In Progress
 

@@ -1,0 +1,31 @@
+{
+  "name": "skill-systems-thinking",
+  "version": "0.1.0",
+  "description": "Control-theoretic thinking scaffold for AI coding agents — identify state, measure, stabilize, close the loop.",
+  "license": "MIT",
+  "main": "SKILL.md",
+  "files": [
+    "SKILL.md",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "references/",
+    "templates/",
+    "assets/",
+    "evals/",
+    "init.ps1"
+  ],
+  "scripts": {
+    "postinstall": "node -e \"console.log('skill-systems-thinking installed. Link it to your agent skill directory. Run pwsh init.ps1 to verify.')\"",
+    "verify": "pwsh init.ps1"
+  },
+  "keywords": ["skill", "agentskill", "kilocode", "claude-code", "aider", "cursor", "copilot", "codex", "windsurf", "zed", "control-theory", "systems-thinking", "ai-agent", "coding-agent"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YOUR_USERNAME/systems-thinking.git"
+  },
+  "os": ["darwin", "linux", "win32"],
+  "engines": {
+    "node": ">=14"
+  }
+}
