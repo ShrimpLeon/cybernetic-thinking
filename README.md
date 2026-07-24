@@ -59,7 +59,7 @@ node -e "console.log(require.resolve('skill-systems-thinking'))"
 ### GitHub 下载
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/systems-thinking.git
+git clone https://github.com/ShrimpLeon/systems-thinking.git
 cp -r systems-thinking <agent-skills-dir>/
 ```
 
@@ -304,7 +304,7 @@ Then symlink or copy the skill into your agent's skill directory (see agent-spec
 ### GitHub download
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/systems-thinking.git
+git clone https://github.com/ShrimpLeon/systems-thinking.git
 cp -r systems-thinking <agent-skills-dir>/
 ```
 

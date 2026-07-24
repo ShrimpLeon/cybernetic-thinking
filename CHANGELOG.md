@@ -5,6 +5,18 @@ Versioning follows [Semantic Versioning](https://semver.org/) in `X.Y.Z` format.
 
 ---
 
+## [0.1.1] — 2026-07-24
+
+### Changed
+- Fixed `repository.url` and `homepage` in `package.json` (replaced `YOUR_USERNAME` placeholder with `ShrimpLeon`)
+- Expanded `keywords` from 5 to 14 for better npm search discoverability across AI agents
+- Added `homepage` field to `package.json`
+- Added `init.ps1` to `files` array in `package.json` so it's included in the npm package
+- Added `postinstall` and `verify` scripts to `package.json`
+- README.md Installation section restructured: npm install as primary method, GitHub download as alternative
+- Added agent-specific symlink commands for 8 agents in README.md
+- Added Compatibility section in both 中文 and English
+
 ## [0.1.0] — 2026-07-24
 
 ### Added

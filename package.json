@@ -1,6 +1,6 @@
 {
   "name": "skill-systems-thinking",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Control-theoretic thinking scaffold for AI coding agents — identify state, measure, stabilize, close the loop.",
   "license": "MIT",
   "main": "SKILL.md",
@@ -22,8 +22,9 @@
   "keywords": ["skill", "agentskill", "kilocode", "claude-code", "aider", "cursor", "copilot", "codex", "windsurf", "zed", "control-theory", "systems-thinking", "ai-agent", "coding-agent"],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/YOUR_USERNAME/systems-thinking.git"
+    "url": "git+https://github.com/ShrimpLeon/systems-thinking.git"
   },
+  "homepage": "https://github.com/ShrimpLeon/systems-thinking#readme",
   "os": ["darwin", "linux", "win32"],
   "engines": {
     "node": ">=14"
