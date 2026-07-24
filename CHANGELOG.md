@@ -12,10 +12,12 @@ Versioning follows [Semantic Versioning](https://semver.org/) in `X.Y.Z` format.
 - Expanded `keywords` from 5 to 14 for better npm search discoverability across AI agents
 - Added `homepage` field to `package.json`
 - Added `init.ps1` to `files` array in `package.json` so it's included in the npm package
-- Added `postinstall` and `verify` scripts to `package.json`
-- README.md Installation section restructured: npm install as primary method, GitHub download as alternative
-- Added agent-specific symlink commands for 8 agents in README.md
+- README.md Installation section restructured: npx one-command install as primary method, GitHub download as alternative
+- Added `scripts/install.js` for npx auto-detection of AI agents and automatic symlinking
+- Added `bin` field to `package.json` so `npx skill-systems-thinking install` works
+- Added agent-specific setup info for 8 agents in README.md
 - Added Compatibility section in both 中文 and English
+- Removed npm install as a separate method; npx is the recommended approach
 
 ## [0.1.0] — 2026-07-24
 

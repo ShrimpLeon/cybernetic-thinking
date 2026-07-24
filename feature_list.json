@@ -42,11 +42,11 @@
     },
     {
       "id": "feat-006",
-      "name": "npm install + multi-agent README support",
-      "description": "Add npm install instructions to README alongside GitHub download, optimize README for multi-agent installation with agent-specific setup paths and compatibility matrix, update package.json with postinstall script and expanded keywords for cross-agent discoverability.",
+      "name": "npx one-command install with agent auto-detection",
+      "description": "Make npx the primary install method. Create scripts/install.js that auto-detects installed AI agents and symlinks the skill. Add bin entry to package.json. Remove npm install as a separate method. Update README with npx instructions in both languages.",
       "dependencies": ["feat-005"],
       "status": "done",
-      "evidence": "README.md updated with npm install section, agent-specific symlink commands for 8 agents, compatibility matrix in both 中文 and English; package.json updated with postinstall script, verify script, expanded keywords, main field, and init.ps1 in files array."
+"evidence": "scripts/install.js created with agent detection for 8 agents; package.json bin field added; README.md Installation section restructured with npx as primary method; GitHub download and symlink kept as alternatives; Compatibility section added in both 中文 and English."
     }
   ]
 }

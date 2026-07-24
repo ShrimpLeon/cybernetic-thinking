@@ -39,22 +39,16 @@
 
 本 skill 面向支持自定义 skill 的 AI 编程助手（Kilo、Claude Code、Aider、Cursor 等）。
 
-### npm install（推荐）
+### npx 一键安装（推荐）
 
 ```bash
-npm install skill-systems-thinking
+npx skill-systems-thinking install
 ```
 
-安装后，将 skill 链接到你的 agent skill 目录：
+该命令会自动检测你机器上已安装的 AI agent，并将 skill 链接到对应的 skill 目录。
 
-```bash
-# 查找 npm 全局安装路径
-npm root -g
-# 或本地项目安装：
-node -e "console.log(require.resolve('skill-systems-thinking'))"
-```
-
-然后将 skill 符号链接或复制到你的 agent skill 目录（详见下方各 agent 的具体说明）。
+- 全局安装（所有项目可用）：`npx skill-systems-thinking install --global`
+- 强制覆盖已存在的链接：`npx skill-systems-thinking install --force`
 
 ### GitHub 下载
 
@@ -71,20 +65,20 @@ ln -s /absolute/path/to/systems-thinking <agent-skills-dir>/
 
 ### 各 agent 配置
 
-npm 包将 skill 文件安装到 `node_modules/skill-systems-thinking/`。你需要让各 agent 找到它们。各 agent 的 skill 目录如下。
+npx 安装会自动将 skill 链接到各 agent 的 skill 目录。手动安装时，各 agent 的 skill 目录如下。
 
-| Agent | Skill 目录 | npm 链接命令 |
-|---|---|---|
-| Kilo | `~/.config/kilo/skills/` 或项目 `.kilo/agent/` | `ln -s $(npm root -g)/skill-systems-thinking ~/.config/kilo/skills/systems-thinking` |
-| Claude Code | `~/.claude/plugins/custom-skills/` 或项目 `.claude/` | `ln -s $(npm root -g)/skill-systems-thinking ~/.claude/plugins/custom-skills/systems-thinking` |
-| Aider | `--skills-dir` 路径 | `ln -s $(npm root -g)/skill-systems-thinking <aider-skills-dir>/` |
-| Cursor | 项目 `.cursor/rules/` 或全局设置 | `ln -s $(npm root -g)/skill-systems-thinking .cursor/rules/systems-thinking` |
-| OpenAI Codex | `~/.codex/skills/` | `ln -s $(npm root -g)/skill-systems-thinking ~/.codex/skills/systems-thinking` |
-| GitHub Copilot | `~/.copilot/skills/` | `ln -s $(npm root -g)/skill-systems-thinking ~/.copilot/skills/systems-thinking` |
-| Windsurf | `~/.windsurf/skills/` | `ln -s $(npm root -g)/skill-systems-thinking ~/.windsurf/skills/systems-thinking` |
-| Zed | `~/.zed/skills/` | `ln -s $(npm root -g)/skill-systems-thinking ~/.zed/skills/systems-thinking` |
+| Agent | Skill 目录 |
+|---|---|
+| Kilo | `~/.config/kilo/skills/` 或项目 `.kilo/agent/` |
+| Claude Code | `~/.claude/plugins/custom-skills/` 或项目 `.claude/` |
+| Aider | `--skills-dir` 路径 |
+| Cursor | 项目 `.cursor/rules/` 或全局设置 |
+| OpenAI Codex | `~/.codex/skills/` |
+| GitHub Copilot | `~/.copilot/skills/` |
+| Windsurf | `~/.windsurf/skills/` |
+| Zed | `~/.zed/skills/` |
 
-> **注意：** 如果你的 agent 未出现在上方，请查阅其文档获取自定义 skill/plugin 路径。npm 包安装到标准的 `node_modules` 位置，因此任何能从任意目录加载 skill 的 agent 都可以使用。
+> **注意：** 如果你的 agent 未出现在上方，请查阅其文档获取自定义 skill/plugin 路径。
 
 ### 验证安装
 
@@ -109,7 +103,7 @@ npm 包 `skill-systems-thinking` 兼容以下 agent 智能体：
 | Windsurf | ✅ | 通过 `~/.windsurf/skills/` 链接 |
 | Zed | ✅ | 通过 `~/.zed/skills/` 链接 |
 
-npm 安装将 skill 文件部署到 `node_modules/skill-systems-thinking/`，然后通过符号链接暴露给各 agent。由于 npm 包不包含 agent 特有的配置文件（如 `.kilo/`、`.claude/` 等），你需要手动创建符号链接将 skill 指向各 agent 的 skill 目录。这一步在所有支持的 agent 上都是相同的操作。
+npx 安装会自动将 skill 链接到各 agent 的 skill 目录。由于 npm 包不包含 agent 特有的配置文件（如 `.kilo/`、`.claude/` 等），安装脚本会从各 agent 的 skill 目录创建符号链接到包位置。这一步在所有支持的 agent 上都是相同的操作。
 
 ## 使用方式
 
@@ -284,22 +278,16 @@ Every change injects a control signal. You only partially observe the true state
 
 This skill is designed for AI coding agents that support custom skills (Kilo, Claude Code, Aider, Cursor, etc.).
 
-### npm install (recommended)
+### npx one-command install (recommended)
 
 ```bash
-npm install skill-systems-thinking
+npx skill-systems-thinking install
 ```
 
-After installing, link the skill into your agent's skill directory:
+This command automatically detects AI agents installed on your machine and links the skill into their skill directories.
 
-```bash
-# Find where npm installed the package
-npm root -g
-# or for local project install:
-node -e "console.log(require.resolve('skill-systems-thinking'))"
-```
-
-Then symlink or copy the skill into your agent's skill directory (see agent-specific instructions below).
+- Global install (available across all projects): `npx skill-systems-thinking install --global`
+- Force overwrite existing links: `npx skill-systems-thinking install --force`
 
 ### GitHub download
 
@@ -316,20 +304,20 @@ ln -s /absolute/path/to/systems-thinking <agent-skills-dir>/
 
 ### Agent-specific setup
 
-The npm package installs the skill files into `node_modules/skill-systems-thinking/`. You then need to make your agent aware of them. Below are the paths for each supported agent.
+npx install automatically links the skill into each agent's skill directory. For manual installation, below are the paths for each supported agent.
 
-| Agent | Skill directory | npm link command |
-|---|---|---|
-| Kilo | `~/.config/kilo/skills/` or project `.kilo/agent/` | `ln -s $(npm root -g)/skill-systems-thinking ~/.config/kilo/skills/systems-thinking` |
-| Claude Code | `~/.claude/plugins/custom-skills/` or project `.claude/` | `ln -s $(npm root -g)/skill-systems-thinking ~/.claude/plugins/custom-skills/systems-thinking` |
-| Aider | `--skills-dir` path | `ln -s $(npm root -g)/skill-systems-thinking <aider-skills-dir>/` |
-| Cursor | Project `.cursor/rules/` or global settings | `ln -s $(npm root -g)/skill-systems-thinking .cursor/rules/systems-thinking` |
-| OpenAI Codex | `~/.codex/skills/` | `ln -s $(npm root -g)/skill-systems-thinking ~/.codex/skills/systems-thinking` |
-| GitHub Copilot | `~/.copilot/skills/` | `ln -s $(npm root -g)/skill-systems-thinking ~/.copilot/skills/systems-thinking` |
-| Windsurf | `~/.windsurf/skills/` | `ln -s $(npm root -g)/skill-systems-thinking ~/.windsurf/skills/systems-thinking` |
-| Zed | `~/.zed/skills/` | `ln -s $(npm root -g)/skill-systems-thinking ~/.zed/skills/systems-thinking` |
+| Agent | Skill directory |
+|---|---|
+| Kilo | `~/.config/kilo/skills/` or project `.kilo/agent/` |
+| Claude Code | `~/.claude/plugins/custom-skills/` or project `.claude/` |
+| Aider | `--skills-dir` path |
+| Cursor | Project `.cursor/rules/` or global settings |
+| OpenAI Codex | `~/.codex/skills/` |
+| GitHub Copilot | `~/.copilot/skills/` |
+| Windsurf | `~/.windsurf/skills/` |
+| Zed | `~/.zed/skills/` |
 
-> **Note:** If your agent does not appear above, check its documentation for custom skill/plugin paths. The npm package installs to a standard `node_modules` location, so any agent that can load skills from an arbitrary directory will work.
+> **Note:** If your agent does not appear above, check its documentation for custom skill/plugin paths.
 
 ### Verify installation
 
@@ -354,7 +342,7 @@ The npm package `skill-systems-thinking` is compatible with the following AI age
 | Windsurf | ✅ | Link via `~/.windsurf/skills/` |
 | Zed | ✅ | Link via `~/.zed/skills/` |
 
-The npm install deploys skill files to `node_modules/skill-systems-thinking/`, then you symlink them into each agent's skill directory. Since the npm package does not include agent-specific config files (like `.kilo/`, `.claude/`, etc.), you need to manually create symlinks pointing from each agent's skill directory to the npm-installed location. This is the same operation across all supported agents.
+The npx install automatically links the skill into each agent's skill directory. Since the package does not include agent-specific config files (like `.kilo/`, `.claude/`, etc.), the install script creates symlinks from each agent's skill directory to the package location. This is the same operation across all supported agents.
 
 ## Usage
 

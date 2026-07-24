@@ -13,11 +13,15 @@
     "templates/",
     "assets/",
     "evals/",
-    "init.ps1"
+    "init.ps1",
+    "scripts/"
   ],
   "scripts": {
-    "postinstall": "node -e \"console.log('skill-systems-thinking installed. Link it to your agent skill directory. Run pwsh init.ps1 to verify.')\"",
-    "verify": "pwsh init.ps1"
+    "verify": "pwsh init.ps1",
+    "install-skill": "node scripts/install.js"
+  },
+  "bin": {
+    "skill-systems-thinking": "scripts/install.js"
   },
   "keywords": ["skill", "agentskill", "kilocode", "claude-code", "aider", "cursor", "copilot", "codex", "windsurf", "zed", "control-theory", "systems-thinking", "ai-agent", "coding-agent"],
   "repository": {

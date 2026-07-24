@@ -37,11 +37,16 @@
   - `init.ps1` expanded to verify 20 files including new assets/references
   - All `templates/` references clarified in SKILL.md and README.md with install-path context
   - One-line pitches added to both 中文 and English README sections (`title: Systems Thinking`)
-- [x] feat-006 — npm install + multi-agent README support:
-  - README.md Installation section restructured with npm install as primary method, GitHub download as alternative
-  - Agent-specific symlink commands added for 8 agents (Kilo, Claude Code, Aider, Cursor, OpenAI Codex, GitHub Copilot, Windsurf, Zed)
+- [x] feat-006 — npx one-command install with agent auto-detection:
+  - README.md Installation section restructured with npx as primary method, npm install removed
+  - GitHub download kept as alternative installation path
+  - Agent-specific setup info for 8 agents (Kilo, Claude Code, Aider, Cursor, OpenAI Codex, GitHub Copilot, Windsurf, Zed)
   - Compatibility matrix added in both 中文 and English sections
-  - package.json updated: postinstall script, verify script, expanded keywords, main field, init.ps1 in files array
+  - `scripts/install.js` created with agent auto-detection and symlinking
+  - `bin` field added to package.json so `npx skill-systems-thinking install` works
+  - Supports `--global` and `--force` flags
+  - `scripts/` added to `files` array in package.json
+  - `postinstall` script removed from package.json (no longer needed with npx approach)
 
 ### What's In Progress
 
@@ -49,7 +54,7 @@
 
 ### What's Next
 
-1. Publish / distribute the skill
+1. Publish v0.1.1 to npm with the npx install support
 2. Consider adding worked examples to remaining reference files if evals show LLMs still missing a principle
 
 ## Blockers / Risks
