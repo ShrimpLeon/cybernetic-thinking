@@ -1,12 +1,13 @@
 {
   "name": "skill-systems-thinking",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Control-theoretic thinking scaffold for AI coding agents — identify state, measure, stabilize, close the loop.",
   "license": "MIT",
   "main": "SKILL.md",
   "files": [
     "SKILL.md",
     "README.md",
+    "README_CN.md",
     "CHANGELOG.md",
     "LICENSE",
     "references/",

@@ -39,6 +39,7 @@ $required = @(
     "assets/runtime-prompt.txt",
     "CHANGELOG.md",
     "README.md",
+    "README_CN.md",
     "SKILL.md",
     "AGENTS.md",
     "feature_list.json",

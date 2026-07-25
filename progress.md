@@ -4,7 +4,7 @@
 
 **Last Updated:** 2026-07-25 14:52
 **Session ID:** [optional]
-**Active Feature:** feat-006 — npx one-command install with Gitee support (complete)
+**Current Version:** 0.1.5
 
 ## Status
 
@@ -12,7 +12,7 @@
 
 - [x] feat-001 — Harness Bootstrap: created AGENTS.md, progress.md, feature_list.json, session-handoff.md, init.ps1
 - [x] SKILL.md restructure: added Scope section, runtime prompt block, updated frontmatter to emphasize thinking-mode
-- [x] README.md rewrite: full bilingual (中文/English) layout with language toggle, concise natural prose
+- [x] README.md split into README.md (English) and README_CN.md (Chinese) for cleaner GitHub reading experience
 - [x] evals/checks.json rewrite: 11 MUST/SHOULD items probing cognitive laws
 - [x] templates update: debugging-checklist.md and change-proposal.md rewritten as LLM prompt scaffolds
 - [x] references update: all 8 references include LLM behavior pattern sections
@@ -56,7 +56,7 @@
 
 ### What's Next
 
-1. Publish v0.1.3 to npm with the Gitee support and npx-first approach
+1. Publish v0.1.5 to npm with the Gitee support and npx-first approach
 2. Consider adding worked examples to remaining reference files if evals show LLMs still missing a principle
 
 ## Blockers / Risks
@@ -74,7 +74,8 @@
 ## Files Modified This Session
 
 - `SKILL.md` — renamed; slimmed to runtime essentials; title added; imperative style; templates/ clarified
-- `README.md` — renamed; version tables; one-line pitches; templates/ clarified in both 中文 and English
+- `README.md` — English-only; version tables; one-line pitches; language toggle linking to `README_CN.md`; templates/ clarified
+- `README_CN.md` — new file (v0.1.5): Chinese translation extracted from original bilingual README
 - `evals/checks.json` — `skill` field updated; `model-validity-stated` MUST added
 - `init.ps1` — renamed; checks 20 files
 - `feature_list.json` — all 5 features marked done with evidence
@@ -101,6 +102,7 @@
 - [x] `assets/runtime-prompt.txt` present
 - [x] `CHANGELOG.md` present and linked from README.md
 - [x] No remaining `engineering-cybernetics-thinking` references in any tracked file
+- [x] Version unified to `0.1.5` across `package.json`, `README.md`, `README_CN.md`, `CHANGELOG.md`, `progress.md`, and `session-handoff.md`
 
 ## Notes for Next Session
 

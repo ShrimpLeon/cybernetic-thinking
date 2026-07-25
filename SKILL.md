@@ -1,7 +1,7 @@
 ---
 name: systems-thinking
 slug: skill-systems-thinking
-version:0.1.4
+version: 0.1.5
 description: >
   Thinking-mode skill for LLMs: installs a control-theoretic cognitive operating system
   derived from Qian Xuesen & Song Jian's "Engineering Cybernetics" (工程控制论). Shapes how

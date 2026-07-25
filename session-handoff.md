@@ -71,7 +71,7 @@
 
 ## Recommended Next Step
 
-- Skill is feature-complete for v0.1.3 with npx-first installation and Gitee support. Next: publish v0.1.3 to npm with `npm publish`, then test the `npx skill-systems-thinking install` flow end-to-end with a real agent.
+- Skill is feature-complete for v0.1.5 with npx-first installation and Gitee support. Next: publish v0.1.5 to npm with `npm publish`, then test the `npx skill-systems-thinking install` flow end-to-end with a real agent.
 
 ## Verification Evidence
 
@@ -116,4 +116,4 @@
 
 ## Recommended Next Step
 
-- Skill is feature-complete for v0.1.1 with npx-first installation. Next: publish v0.1.1 to npm with `npm publish`, then test the `npx skill-systems-thinking install` flow end-to-end with a real agent.
+- Skill is feature-complete for v0.1.5 with npx-first installation. Next: publish v0.1.5 to npm with `npm publish`, then test the `npx skill-systems-thinking install` flow end-to-end with a real agent.

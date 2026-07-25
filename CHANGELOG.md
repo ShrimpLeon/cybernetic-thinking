@@ -5,6 +5,12 @@ Versioning follows [Semantic Versioning](https://semver.org/) in `X.Y.Z` format.
 
 ---
 
+## [0.1.5] — 2026-07-25
+
+### Changed
+- Unified version numbers across documentation files to `0.1.5`
+- Split `README.md` into `README.md` (English) and `README_CN.md` (Chinese) for cleaner GitHub reading experience
+
 ## [0.1.3] — 2026-07-25
 
 ### Added
