@@ -43,10 +43,24 @@ This skill is designed for AI coding agents that support custom skills (Kilo, Cl
 npx skill-systems-thinking install
 ```
 
-This command automatically detects AI agents installed on your machine and links the skill into their skill directories.
+By default, this installs the skill for **all detected agents** at both global and project-local paths.
 
-- Global install (available across all projects): `npx skill-systems-thinking install --global`
+- Install for specific agents: `npx skill-systems-thinking install --agents kilo,claude-code`
+- Global install only: `npx skill-systems-thinking install --global`
+- Project-local install only: `npx skill-systems-thinking install --local`
 - Force overwrite existing links: `npx skill-systems-thinking install --force`
+
+### npm install (download only)
+
+```bash
+npm install skill-systems-thinking
+```
+
+This only **downloads** the package into `node_modules/skill-systems-thinking`; it does not link anything into your agent skill directories. After this, still run the install step:
+
+```bash
+npx skill-systems-thinking install
+```
 
 ### GitHub download
 
@@ -223,6 +237,7 @@ This skill follows [Semantic Versioning](https://semver.org/) (`X.Y.Z`).
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.2.0 | 2026-07-26 | Added agent selection and location flags to install CLI |
 | 0.1.5 | 2026-07-25 | Split README.md / README_CN.md for bilingual GitHub experience; unified version numbers |
 | 0.1.4 | 2026-07-25 | Bug fix |
 | 0.1.3 | 2026-07-25 | Unified version numbers across project; added XYZ version convention to AGENTS.md; removed postinstall script |

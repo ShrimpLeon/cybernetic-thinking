@@ -45,10 +45,24 @@
 npx skill-systems-thinking install
 ```
 
-该命令会自动检测你机器上已安装的 AI agent，并将 skill 链接到对应的 skill 目录。
+默认情况下，该命令会为**所有检测到的 agent** 安装 skill，链接到全局和项目本地路径。
 
-- 全局安装（所有项目可用）：`npx skill-systems-thinking install --global`
+- 选择特定 agent 安装：`npx skill-systems-thinking install --agents kilo,claude-code`
+- 仅全局安装：`npx skill-systems-thinking install --global`
+- 仅项目本地安装：`npx skill-systems-thinking install --local`
 - 强制覆盖已存在的链接：`npx skill-systems-thinking install --force`
+
+### npm install（仅下载）
+
+```bash
+npm install skill-systems-thinking
+```
+
+这只会**下载**包到 `node_modules/skill-systems-thinking`，并不会把 skill 链接到你的 agent skill 目录。下载后仍需运行安装命令：
+
+```bash
+npx skill-systems-thinking install
+```
 
 ### GitHub 下载
 
@@ -224,6 +238,7 @@ npx 安装会自动将 skill 链接到各 agent 的 skill 目录。由于 npm �
 
 | 版本 | 日期 | 说明 |
 |---|---|---|
+| 0.2.0 | 2026-07-26 | 安装 CLI 新增 agent 选择和安装位置 flags |
 | 0.1.5 | 2026-07-25 | 分离 README.md / README_CN.md；统一版本号 |
 | 0.1.4 | 2026-07-25 | 缺陷修复 |
 | 0.1.3 | 2026-07-25 | 统一项目版本号；添加 XYZ 版本约定到 AGENTS.md；移除 postinstall 脚本 |

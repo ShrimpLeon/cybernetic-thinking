@@ -46,7 +46,15 @@
       "description": "Make npx the primary install method. Create scripts/install.js that auto-detects installed AI agents and symlinks the skill. Add bin entry to package.json. Remove npm install as a separate method. Update README with npx instructions in both languages.",
       "dependencies": ["feat-005"],
       "status": "done",
-"evidence": "scripts/install.js created with agent detection for 8 agents; package.json bin field added; README.md Installation section restructured with npx as primary method; GitHub download and symlink kept as alternatives; Compatibility section added in both 中文 and English."
+      "evidence": "scripts/install.js created with agent detection for 8 agents; package.json bin field added; README.md Installation section restructured with npx as primary method; GitHub download and symlink kept as alternatives; Compatibility section added in both 中文 and English."
+    },
+    {
+      "id": "feat-007",
+      "name": "Agent selection and location flags for install CLI",
+      "description": "Add --agents flag for agent selection, --global/--local scope flags, and --help output to scripts/install.js. Update README files with new flags. Add npm install documentation explaining it downloads only and requires npx install to actually link.",
+      "dependencies": ["feat-006"],
+      "status": "done",
+      "evidence": "scripts/install.js updated with --agents, --global, --local, and --help; README.md and README_CN.md updated with new flags and npm install clarification; version bumped to 0.2.0 across all files"
     }
   ]
 }

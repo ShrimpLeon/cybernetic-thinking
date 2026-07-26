@@ -2,9 +2,9 @@
 
 ## Current State
 
-**Last Updated:** 2026-07-25 14:52
+**Last Updated:** 2026-07-26
 **Session ID:** [optional]
-**Current Version:** 0.1.5
+**Current Version:** 0.2.0
 
 ## Status
 
@@ -49,6 +49,12 @@
   - `scripts/` added to `files` array in package.json
   - `postinstall` script removed from package.json (no longer needed with npx approach)
   - `repository.url` and `homepage` in package.json updated to Gitee
+- [x] feat-007 — Agent selection and location flags for install CLI:
+  - Added `--agents` flag to select specific agents (e.g. `--agents kilo,claude-code`)
+  - Added `--global` and `--local` scope flags
+  - Added `--help` output
+  - Updated README.md and README_CN.md with new flags
+  - Added npm install documentation explaining it only downloads but still needs `npx skill-systems-thinking install`
 
 ### What's In Progress
 
@@ -56,7 +62,7 @@
 
 ### What's Next
 
-1. Publish v0.1.5 to npm with the Gitee support and npx-first approach
+1. Publish v0.2.0 to npm with agent selection and location flags
 2. Consider adding worked examples to remaining reference files if evals show LLMs still missing a principle
 
 ## Blockers / Risks
@@ -102,7 +108,8 @@
 - [x] `assets/runtime-prompt.txt` present
 - [x] `CHANGELOG.md` present and linked from README.md
 - [x] No remaining `engineering-cybernetics-thinking` references in any tracked file
-- [x] Version unified to `0.1.5` across `package.json`, `README.md`, `README_CN.md`, `CHANGELOG.md`, `progress.md`, and `session-handoff.md`
+- [x] Version unified to `0.2.0` across `package.json`, `README.md`, `README_CN.md`, `CHANGELOG.md`, `progress.md`, and `session-handoff.md`
+- [x] `scripts/install.js` updated with `--agents`, `--global`, `--local`, and `--help` flags
 
 ## Notes for Next Session
 

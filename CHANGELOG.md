@@ -5,6 +5,19 @@ Versioning follows [Semantic Versioning](https://semver.org/) in `X.Y.Z` format.
 
 ---
 
+## [0.2.0] — 2026-07-26
+
+### Added
+- `--agents` flag to `scripts/install.js` for selecting specific agents
+- `--global`, `--local`, and `--all` scope flags to control install location
+- `--help` output to the install CLI
+
+### Changed
+- Updated `README.md` and `README_CN.md` Installation sections with new flags
+- Added `npm install` documentation noting it downloads only, plus explains still needing to run `npx skill-systems-thinking install` to actually link to skills dir
+
+---
+
 ## [0.1.5] — 2026-07-25
 
 ### Changed
