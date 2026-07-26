@@ -55,6 +55,12 @@
   - Added `--help` output
   - Updated README.md and README_CN.md with new flags
   - Added npm install documentation explaining it only downloads but still needs `npx skill-systems-thinking install`
+- [x] feat-007 review — Fixed auto-detection and README quality:
+  - `install.js`: default now scans for actually installed agents (directory exists) instead of installing for all 8 agents
+  - `install.js`: `--agents` flag creates directories for explicitly requested agents
+  - `install.js`: when no agents detected, prints helpful message listing available agents and suggesting `--agents`
+  - README.md: removed implementation-detail paragraph in Compatibility section; improved default-install description
+  - README_CN.md: removed implementation-detail paragraph; fixed "agent 智能体" → "AI 编程助手"; fixed "投机性额外操作" → "不做多余的改动"; improved tone consistency
 
 ### What's In Progress
 
@@ -109,7 +115,8 @@
 - [x] `CHANGELOG.md` present and linked from README.md
 - [x] No remaining `engineering-cybernetics-thinking` references in any tracked file
 - [x] Version unified to `0.2.0` across `package.json`, `README.md`, `README_CN.md`, `CHANGELOG.md`, `progress.md`, and `session-handoff.md`
-- [x] `scripts/install.js` updated with `--agents`, `--global`, `--local`, and `--help` flags
+- [x] `scripts/install.js` updated with `--agents`, `--global`, `--local`, and `--help` flags; default auto-detection only installs for agents with existing directories
+- [x] README.md and README_CN.md cleaned of implementation details and AI-sounding phrases
 
 ## Notes for Next Session
 

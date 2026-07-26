@@ -45,7 +45,7 @@
 npx skill-systems-thinking install
 ```
 
-默认情况下，该命令会为**所有检测到的 agent** 安装 skill，链接到全局和项目本地路径。
+默认情况下，安装程序会扫描你机器上已安装的 agent，并将 skill 链接到它们的全局和项目本地目录。只有实际检测到的 agent 才会被安装。
 
 - 选择特定 agent 安装：`npx skill-systems-thinking install --agents kilo,claude-code`
 - 仅全局安装：`npx skill-systems-thinking install --global`
@@ -107,11 +107,11 @@ npx 安装会自动将 skill 链接到各 agent 的 skill 目录。手动安装�
 pwsh init.ps1
 ```
 
-看到 `Verification Complete — OK` 就说明装好了。
+看到 `Verification Complete — OK` 即表示安装成功。
 
 ## 兼容性
 
-npm 包 `skill-systems-thinking` 兼容以下 agent 智能体：
+npm 包 `skill-systems-thinking` 兼容以下 AI 编程助手：
 
 | Agent | npm 安装兼容 | 说明 |
 |---|---|---|
@@ -124,7 +124,7 @@ npm 包 `skill-systems-thinking` 兼容以下 agent 智能体：
 | Windsurf | ✅ | 通过 `~/.windsurf/skills/` 链接 |
 | Zed | ✅ | 通过 `~/.zed/skills/` 链接 |
 
-npx 安装会自动将 skill 链接到各 agent 的 skill 目录。由于 npm 包不包含 agent 特有的配置文件（如 `.kilo/`、`.claude/` 等），安装脚本会从各 agent 的 skill 目录创建符号链接到包位置。这一步在所有支持的 agent 上都是相同的操作。
+npx 安装会自动将 skill 链接到各 agent 的 skill 目录。
 
 ## 使用方式
 
@@ -185,7 +185,7 @@ npx 安装会自动将 skill 链接到各 agent 的 skill 目录。由于 npm �
 4. 闭环。观察实际结果，不断修正直到偏差有界。
 5. 可测扰动用前馈，其余用反馈。绝不在延迟回路上提高增益。
 6. 解耦有害耦合，协调有益耦合。调节关系，不只是绝对值。
-7. 最小控制。移动 `x` 到目标所需的最小 `u`，不搞投机性额外操作。
+7. 最小控制。移动 `x` 到目标所需的最小 `u`，不做多余的改动。
 8. 收敛。修正幅度必须越来越小。如果越来越大，说明不稳定——停下来重新识别。
 
 ## 工作示例

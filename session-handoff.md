@@ -11,12 +11,13 @@
 - feat-007: Added agent selection (`--agents`), location scope (`--global`, `--local`), and `--help` to `scripts/install.js`
 - Updated both README.md and README_CN.md with new flags and npm install clarification
 - Version bumped to 0.2.0 across package.json, SKILL.md, README.md, README_CN.md, CHANGELOG.md, progress.md, session-handoff.md
+- feat-007 review: Fixed auto-detection in install.js (default now scans for actually installed agents); removed implementation details and AI-sounding phrases from both READMEs
 
 ## File Reference
 
-- `scripts/install.js` — install CLI with agent selection and location flags
+- `scripts/install.js` — install CLI with agent selection, location flags, and real auto-detection
 - `package.json` — bin field points to `scripts/install.js`
-- `README.md` / `README_CN.md` — installation docs with all flags
+- `README.md` / `README_CN.md` — installation docs with all flags, cleaned of implementation details
 
 ## Next Steps
 

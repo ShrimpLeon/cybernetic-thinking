@@ -13,8 +13,13 @@ Versioning follows [Semantic Versioning](https://semver.org/) in `X.Y.Z` format.
 - `--help` output to the install CLI
 
 ### Changed
-- Updated `README.md` and `README_CN.md` Installation sections with new flags
-- Added `npm install` documentation noting it downloads only, plus explains still needing to run `npx skill-systems-thinking install` to actually link to skills dir
+- Default install behavior: now scans for actually installed agents (directory exists) instead of installing for all 8 agents
+- `--agents` flag creates agent directories when explicitly requested
+- No agents detected: prints helpful message listing available agents
+- Updated `README.md` and `README_CN.md` Installation sections with new flags and auto-detection description
+- Added `npm install` documentation noting it downloads only, plus explains still needing to run `npx skill-systems-thinking install`
+- Removed implementation-detail paragraphs from Compatibility sections in both READMEs
+- Fixed AI-sounding Chinese phrasing in README_CN.md
 
 ---
 

@@ -18,7 +18,7 @@ Derived from Qian Xuesen (Tsien Hsue-shen‌) & Song Jian, *Engineering Cybernet
 
 The default approach to coding is: start typing, then pray the tests pass. This skill changes that order.
 
-It fits best when:
+Use it when:
 
 - You're changing legacy code you don't fully understand
 - You're debugging something that breaks intermittently and can't be reproduced reliably
@@ -43,7 +43,7 @@ This skill is designed for AI coding agents that support custom skills (Kilo, Cl
 npx skill-systems-thinking install
 ```
 
-By default, this installs the skill for **all detected agents** at both global and project-local paths.
+By default, the installer scans for installed agents on your machine and links the skill into their directories at both global and project-local paths. Only agents that are actually detected will be installed.
 
 - Install for specific agents: `npx skill-systems-thinking install --agents kilo,claude-code`
 - Global install only: `npx skill-systems-thinking install --global`
@@ -122,7 +122,7 @@ The npm package `skill-systems-thinking` is compatible with the following AI age
 | Windsurf | ✅ | Link via `~/.windsurf/skills/` |
 | Zed | ✅ | Link via `~/.zed/skills/` |
 
-The npx install automatically links the skill into each agent's skill directory. Since the package does not include agent-specific config files (like `.kilo/`, `.claude/`, etc.), the install script creates symlinks from each agent's skill directory to the package location. This is the same operation across all supported agents.
+The npx install automatically links the skill into each agent's skill directory.
 
 ## Usage
 

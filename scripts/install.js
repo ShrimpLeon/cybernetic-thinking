@@ -147,14 +147,48 @@ function main() {
     }
   }
 
-  const targetAgents = selectedAgents.length > 0
-    ? agents.filter(a => selectedAgents.includes(a.slug))
-    : agents;
+  const userSpecifiedAgents = selectedAgents.length > 0;
 
-  if (targetAgents.length === 0) {
-    console.log('No matching agents found. Available agents:');
-    agents.forEach(a => console.log(`  ${a.slug.padEnd(20)} ${a.name}`));
-    process.exit(1);
+  let targetAgents;
+  if (userSpecifiedAgents) {
+    targetAgents = agents.filter(a => selectedAgents.includes(a.slug));
+    if (targetAgents.length === 0) {
+      console.log('No matching agents found. Available agents:');
+      agents.forEach(a => console.log(`  ${a.slug.padEnd(20)} ${a.name}`));
+      process.exit(1);
+    }
+  } else {
+    // Auto-detect: only install for agents that have at least one existing directory
+    const detected = [];
+    const notDetected = [];
+    for (const agent of agents) {
+      const scopePaths = agent.paths.filter(p => {
+        if (scope === 'global') return p.location === 'global';
+        if (scope === 'local') return p.location === 'local';
+        return true;
+      });
+      if (scopePaths.some(p => dirExists(p.dir))) {
+        detected.push(agent);
+      } else {
+        notDetected.push(agent);
+      }
+    }
+    targetAgents = detected;
+    if (notDetected.length > 0) {
+      console.log('Agents not detected:');
+      notDetected.forEach(a => console.log(`  ${a.slug.padEnd(20)} ${a.name}`));
+      console.log('Use --agents to install for them explicitly.');
+      console.log('');
+    }
+    if (targetAgents.length === 0) {
+      console.log('No agents detected on this machine.');
+      console.log('Available agents:');
+      agents.forEach(a => console.log(`  ${a.slug.padEnd(20)} ${a.name}`));
+      console.log('');
+      console.log('Use --agents to select specific agents, e.g.:');
+      console.log(`  npx ${skillName} install --agents kilo,claude-code`);
+      process.exit(0);
+    }
   }
 
   console.log(`Installing ${skillName}...`);
@@ -177,7 +211,8 @@ function main() {
 
     for (const { dir } of filteredPaths) {
       if (!dirExists(dir)) {
-        if (scope === 'global' || scope === 'all') {
+        // When user explicitly specified agents, create missing directories
+        if (userSpecifiedAgents) {
           try {
             fs.mkdirSync(dir, { recursive: true });
           } catch {
