@@ -55,6 +55,30 @@
       "dependencies": ["feat-006"],
       "status": "done",
       "evidence": "scripts/install.js updated with --agents, --global, --local, and --help; README.md and README_CN.md updated with new flags and npm install clarification; version bumped to 0.2.0 across all files"
+    },
+    {
+      "id": "feat-008",
+      "name": "Integrate Cybernetics and Scientific Methodology (Book 2)",
+      "description": "Read 金观涛《控制论与科学方法论》 PDF and distill its epistemological foundations (possibility space, conjugate control, black-box recognition, information-control dependence, ultra-stability, bifurcation) into the skill. Create 4 new reference files, extend 3 existing references, expand SKILL.md runtime prompt from 8 to 13 cognitive laws, extend principle map to 14 rows, extend evals from 12 to 18 items, extend debugging checklist, and add Book 2 excerpts to original-text.md.",
+      "dependencies": ["feat-005", "feat-007"],
+      "status": "done",
+      "evidence": "4 new references created (possibility-space.md, black-box-epistemology.md, information-and-control.md, system-evolution.md); 3 existing references extended (stability.md, closed-loop-workflow.md, original-text.md with 10 Book 2 excerpts); SKILL.md runtime prompt expanded to 13 laws; principle map to 14 rows; evals/checks.json to 18 items; debugging-checklist.md extended; assets/runtime-prompt.txt aligned with 13 laws."
+    },
+    {
+      "id": "feat-009",
+      "name": "Overhaul install UX to mirror impeccable skills install",
+      "description": "Rewrite scripts/install.js to: (1) scan and list detected agents with [√]/[ ] markers and resolved paths, (2) prompt the user interactively (enter/a/s/n menu) when stdout is a TTY, (3) support --path <dir> for custom install destinations, (4) support --yes/-y for skipping prompts, (5) fall back to detected-agents-only in non-TTY/CI environments.",
+      "dependencies": ["feat-007"],
+      "status": "done",
+      "evidence": "scripts/install.js rewritten end-to-end with scan/list/confirm flow, --path, --yes, TTY detection; tested --help, default non-interactive flow, --path custom install, and invalid --agents error handling; all behave correctly."
+    },
+    {
+      "id": "feat-010",
+      "name": "Rewrite READMEs in natural human voice and bump to 0.3.0",
+      "description": "Rewrite README.md and README_CN.md to remove AI-sounding marketing phrases, mention both source books, list all 13 cognitive laws, list all 12 references + original-text.md, document the new install UX with an example session, and add the 0.3.0 version entry. Bump version across package.json, SKILL.md, both READMEs, CHANGELOG.md, progress.md, session-handoff.md.",
+      "dependencies": ["feat-008", "feat-009"],
+      "status": "done",
+      "evidence": "Both READMEs rewritten in conversational tone; both books cited; 13 laws listed; 12 references + original-text.md listed; install UX example included; 0.3.0 version entry added; version unified to 0.3.0 across all 7 files."
     }
   ]
 }

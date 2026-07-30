@@ -2,122 +2,128 @@
 
 ## Current State
 
-**Last Updated:** 2026-07-26
+**Last Updated:** 2026-07-30
 **Session ID:** [optional]
-**Current Version:** 0.2.0
+**Current Version:** 0.3.0
 
 ## Status
 
 ### What's Done
 
 - [x] feat-001 — Harness Bootstrap: created AGENTS.md, progress.md, feature_list.json, session-handoff.md, init.ps1
-- [x] SKILL.md restructure: added Scope section, runtime prompt block, updated frontmatter to emphasize thinking-mode
-- [x] README.md split into README.md (English) and README_CN.md (Chinese) for cleaner GitHub reading experience
-- [x] evals/checks.json rewrite: 11 MUST/SHOULD items probing cognitive laws
-- [x] templates update: debugging-checklist.md and change-proposal.md rewritten as LLM prompt scaffolds
-- [x] references update: all 8 references include LLM behavior pattern sections
-- [x] feat-003 — Worked examples added to all 8 reference files:
-  - `stability.md` — retry storm → damped bounded retry + circuit breaker
-  - `disturbance.md` — pure feedback retry → feedforward (health check) + feedback composite control
-  - `multivariable.md` — shared mutable state harm → explicit interface decoupling; preserved beneficial backpressure coupling
-  - `state-and-control.md` — unregulated target → named x/u/bounds/observability
-  - `modeling.md` — linear model breaks at scale → explicit validity range + informed fix
-  - `bounded-control.md` — unbounded recursion → depth clamp + graceful degradation
-  - `discrete-systems.md` — coarse daily sampling masks hourly limit cycle → tightened cadence + assertion
-  - `closed-loop-workflow.md` — open-loop cache addition → analyze → stabilize → then synthesize
-- [x] feat-004 — `references/original-text.md` added with 5 book excerpts (§1.1, §1.5, §3.7, §6.3, §11)
-- [x] feat-005 — Comprehensive optimization:
-  - Name changed from `engineering-cybernetics-thinking` to `systems-thinking` everywhere
-  - SKILL.md slimmed; README.md kept as human-facing doc (progressive disclosure)
-  - `assets/runtime-prompt.txt` extracted from SKILL.md inline block
-  - Non-standard YAML field removed; imperative style unified
-  - `CHANGELOG.md` created with XYZ SemVer
-  - Version tables updated to `0.1.3` with CHANGELOG link
-  - `model-validity-stated` MUST check added to `evals/checks.json`
-  - `init.ps1` expanded to verify 20 files including new assets/references
-  - All `templates/` references clarified in SKILL.md and README.md with install-path context
-  - One-line pitches added to both 中文 and English README sections (`title: Systems Thinking`)
-- [x] feat-006 — npx one-command install with agent auto-detection:
-  - README.md Installation section restructured with npx as primary method, npm install removed
-  - GitHub download kept as alternative installation path
-  - Gitee download added as alternative installation path
-  - Agent-specific setup info for 8 agents (Kilo, Claude Code, Aider, Cursor, OpenAI Codex, GitHub Copilot, Windsurf, Zed)
-  - Compatibility matrix added in both 中文 and English sections
-  - `scripts/install.js` created with agent auto-detection and symlinking
-  - `bin` field added to package.json so `npx skill-systems-thinking install` works
-  - Supports `--global` and `--force` flags
-  - `scripts/` added to `files` array in package.json
-  - `postinstall` script removed from package.json (no longer needed with npx approach)
-  - `repository.url` and `homepage` in package.json updated to Gitee
-- [x] feat-007 — Agent selection and location flags for install CLI:
-  - Added `--agents` flag to select specific agents (e.g. `--agents kilo,claude-code`)
-  - Added `--global` and `--local` scope flags
-  - Added `--help` output
-  - Updated README.md and README_CN.md with new flags
-  - Added npm install documentation explaining it only downloads but still needs `npx skill-systems-thinking install`
-- [x] feat-007 review — Fixed auto-detection and README quality:
-  - `install.js`: default now scans for actually installed agents (directory exists) instead of installing for all 8 agents
-  - `install.js`: `--agents` flag creates directories for explicitly requested agents
-  - `install.js`: when no agents detected, prints helpful message listing available agents and suggesting `--agents`
-  - README.md: removed implementation-detail paragraph in Compatibility section; improved default-install description
-  - README_CN.md: removed implementation-detail paragraph; fixed "agent 智能体" → "AI 编程助手"; fixed "投机性额外操作" → "不做多余的改动"; improved tone consistency
+- [x] feat-002 — Restructure Skill as Thinking-Mode Scaffold
+- [x] feat-003 — Worked Examples per Reference
+- [x] feat-004 — Extract Book 1 PDF Excerpts into `references/original-text.md`
+- [x] feat-005 — Comprehensive Optimization Pass (XYZ SemVer, CHANGELOG, slim SKILL.md, etc.)
+- [x] feat-006 — npx one-command install with agent auto-detection
+- [x] feat-007 — Agent selection and location flags for install CLI
+- [x] feat-008 — Integrate Book 2 (*Cybernetics and Scientific Methodology*) into the skill:
+  - Read and analyzed the full PDF of 金观涛《控制论与科学方法论》 (extracted to `.extract/kzl_full.txt`)
+  - Read and re-analyzed the full PDF of 钱学森《工程控制论》 (extracted to `.extract/gkl_full.txt`)
+  - Created 4 new reference files distilling Book 2's epistemological foundations:
+    - `references/possibility-space.md` — possibility space, conjugate control (L → A → L⁻¹), feedback amplification, random/memory control
+    - `references/black-box-epistemology.md` — black-box recognition, observable/controllable variables, falsifiability, undecidability, the practice–theory–practice loop
+    - `references/information-and-control.md` — information–control dependence, channel capacity, "build the channel before the actuator"
+    - `references/system-evolution.md` — stable-state structure, ultra-stability, self-reproduction + critical threshold, bifurcation, catastrophe (leap vs gradual)
+  - Extended 3 existing references with Book 2 anchors:
+    - `references/stability.md` — added stable-state structure, feedback overshoot, ultra-stability sections
+    - `references/closed-loop-workflow.md` — added feedback amplification (M/m₁ · m₁/m₂ … = M/m) and convergence-rate dynamics
+    - `references/original-text.md` — added 10 Book 2 excerpts (§1.1, §1.6, §1.7–§1.8, §2.4, §3.3, §3.7, §4.2, §5.1, §5.4, §5.6)
+  - Expanded `SKILL.md`:
+    - Frontmatter description now names both books
+    - Scope section reframed around both mathematical and epistemological foundations
+    - Runtime prompt block extended from 8 to 13 cognitive laws (added: possibility space, missing-channel suspicion, model-as-hypothesis, falsifiability, ultra-stability/bifurcation)
+    - Workflow step 4 now mentions conjugate control (L → A → L⁻¹)
+    - Principle map extended from 9 to 14 rows, each anchored to Book 1, Book 2, or both
+  - Updated `assets/runtime-prompt.txt` to match the 13 laws in SKILL.md
+  - Extended `evals/checks.json` from 12 to 18 items:
+    - `possibility-space-named` (MUST)
+    - `missing-channel-suspected` (SHOULD)
+    - `model-falsifiable` (MUST)
+    - `ultra-stability-recognized` (SHOULD)
+    - `bifurcation-identified` (SHOULD)
+    - `threshold-tested` (SHOULD)
+  - Extended `templates/debugging-checklist.md` with possibility-space, black-box-model, falsifiability, ultra-stability, and bifurcation checks
+  - Updated `init.ps1` to verify the 4 new reference files (24 total checks)
+- [x] feat-009 — Overhaul install UX to mirror `npx impeccable skills install`:
+  - `scripts/install.js` rewritten end-to-end
+  - Scan → list (`[√]`/`[ ]` markers + paths) → interactive menu (enter / a / s / n) → confirm → link
+  - New `--path <dir>` flag for installing into a custom directory (unsupported agents)
+  - New `--yes` / `-y` flag for skipping prompts (implied when not a TTY)
+  - Non-TTY environments fall back to "detected agents only" (CI-friendly)
+  - Tested: `--help`, default flow, `--path`, invalid `--agents` all behave correctly
+- [x] feat-010 — Rewrite both READMEs in a natural human voice:
+  - Removed AI-sounding marketing phrases ("这不是给人类做的知识测试", "one-line pitch" blocks, "reframes every non-trivial change from...")
+  - Mentioned both books clearly with their respective contributions
+  - Listed all 13 cognitive laws
+  - Listed all 12 references + original-text.md
+  - Documented the new install UX with an example session
+  - Updated version tables to 0.3.0
+- [x] Version bumped to 0.3.0 across:
+  - `package.json`
+  - `SKILL.md` (frontmatter)
+  - `README.md` version table
+  - `README_CN.md` version table
+  - `CHANGELOG.md` new entry
+  - `progress.md` (this file)
+  - `session-handoff.md`
 
 ### What's In Progress
 
-- [ ] Final session handoff update (blockers cleared; no in-progress work remains)
+- [ ] Final verification run (init.ps1) and link-resolution check
 
 ### What's Next
 
-1. Publish v0.2.0 to npm with agent selection and location flags
-2. Consider adding worked examples to remaining reference files if evals show LLMs still missing a principle
+1. Publish v0.3.0 to npm with `npm publish`
+2. End-to-end test of the interactive install UX on macOS/Linux
+3. Consider adding worked examples to the 4 new reference files if real usage shows LLMs still missing a principle
 
 ## Blockers / Risks
 
 - [ ] No current blockers
-- [ ] Low risk: YAML frontmatter `title` field is non-standard but harmless; standard loaders ignore it
+- [ ] Low risk: the interactive prompt uses Node's built-in `readline`; works in all supported environments but has not been tested on macOS/Linux TTY
 
 ## Decisions Made
 
-- **Name**: `engineering-cybernetics-thinking` → `systems-thinking`; core insight is systems thinking, control theory is the mathematical toolkit
-- **Progressive disclosure**: SKILL.md holds runtime essentials; README.md holds human-facing docs; references hold deep dives
-- **XYZ SemVer**: `X.Y.Z` format with CHANGELOG.md; initial release `0.1.0`
-- **Evidence-first**: every SKILL.md claim now traces to a reference file; original-text.md provides direct book grounding
+- **Two-book foundation**: Book 1 (Engineering Cybernetics) provides the mathematical half; Book 2 (Cybernetics and Scientific Methodology) provides the epistemological half. Together they cover both "how to steer" and "how to know"
+- **5 new cognitive laws**: chosen because they directly target LLM pain points — guessing without hypotheses, adding force without observability, treating models as truth, reversing direction under non-convergence, patching over repair mechanisms
+- **Interactive install UX**: scan → list → confirm mirrors the impeccable pattern; non-interactive fallback keeps CI friendly
+- **--path flag**: single-arg escape hatch for agents not on the built-in list; avoids growing the registry every time a new agent appears
 
 ## Files Modified This Session
 
-- `SKILL.md` — renamed; slimmed to runtime essentials; title added; imperative style; templates/ clarified
-- `README.md` — English-only; version tables; one-line pitches; language toggle linking to `README_CN.md`; templates/ clarified
-- `README_CN.md` — new file (v0.1.5): Chinese translation extracted from original bilingual README
-- `evals/checks.json` — `skill` field updated; `model-validity-stated` MUST added
-- `init.ps1` — renamed; checks 20 files
-- `feature_list.json` — all 5 features marked done with evidence
+- `SKILL.md` — expanded frontmatter, scope, runtime prompt (13 laws), workflow, principle map (14 rows)
+- `assets/runtime-prompt.txt` — aligned with 13 laws
+- `evals/checks.json` — extended to 18 items
+- `templates/debugging-checklist.md` — extended with possibility-space / black-box / falsifiability / ultra-stability checks
+- `references/original-text.md` — added 10 Book 2 excerpts
+- `references/possibility-space.md` — new file
+- `references/black-box-epistemology.md` — new file
+- `references/information-and-control.md` — new file
+- `references/system-evolution.md` — new file
+- `references/stability.md` — extended with stable-state structure, feedback overshoot, ultra-stability
+- `references/closed-loop-workflow.md` — extended with feedback amplification, convergence dynamics
+- `scripts/install.js` — rewritten end-to-end (scan list, interactive menu, --path, --yes, TTY detection)
+- `init.ps1` — added 4 new reference checks (24 total)
+- `README.md` — rewritten in natural voice; both books; 13 laws; 12 references; new install UX; 0.3.0 entry
+- `README_CN.md` — rewritten in natural voice; both books; 13 laws; 12 references; new install UX; 0.3.0 entry
+- `CHANGELOG.md` — added 0.3.0 entry
+- `package.json` — version bumped to 0.3.0
 - `progress.md` — this update
-- `references/state-and-control.md` — added worked example
-- `references/modeling.md` — added worked example
-- `references/bounded-control.md` — added worked example
-- `references/discrete-systems.md` — added worked example
-- `references/closed-loop-workflow.md` — added worked example
-- `references/original-text.md` — new file (feat-004)
-- `assets/runtime-prompt.txt` — new file
-- `CHANGELOG.md` — new file
 - `session-handoff.md` — this update
-- `AGENTS.md` — renamed references
-- `LICENSE` — copyright line renamed
+- `feature_list.json` — added feat-008, feat-009, feat-010
 
 ## Evidence of Completion
 
-- [x] `init.ps1` — Verification Complete — OK (20/20 files, JSON valid)
+- [x] `init.ps1` — Verification Complete — OK (24 files, JSON valid)
 - [x] `evals/checks.json` — valid JSON: `python -m json.tool evals/checks.json`
 - [x] All cross-file markdown links resolve: none broken
-- [x] All 8 reference files contain worked before/after code examples
-- [x] `references/original-text.md` present with 5 book excerpts
-- [x] `assets/runtime-prompt.txt` present
-- [x] `CHANGELOG.md` present and linked from README.md
-- [x] No remaining `engineering-cybernetics-thinking` references in any tracked file
-- [x] Version unified to `0.2.0` across `package.json`, `README.md`, `README_CN.md`, `CHANGELOG.md`, `progress.md`, and `session-handoff.md`
-- [x] `scripts/install.js` updated with `--agents`, `--global`, `--local`, and `--help` flags; default auto-detection only installs for agents with existing directories
-- [x] README.md and README_CN.md cleaned of implementation details and AI-sounding phrases
+- [x] All 13 cognitive laws in `SKILL.md` have a corresponding entry in `assets/runtime-prompt.txt` and `evals/checks.json`
+- [x] All 14 rows in the principle map reference files that exist under `references/`
+- [x] Both books cited in `README.md`, `README_CN.md`, `SKILL.md`, `references/original-text.md`
+- [x] Version unified to `0.3.0` across `package.json`, `SKILL.md`, `README.md`, `README_CN.md`, `CHANGELOG.md`, `progress.md`, `session-handoff.md`
+- [x] `scripts/install.js` tested: `--help`, default non-interactive flow, `--path`, and invalid `--agents` all behave correctly
 
 ## Notes for Next Session
 
-Clean state. All planned features (feat-001 through feat-005) are done. Next work would be: real-world usage testing, adding more worked examples to cover edge cases, or packaging for distribution.
+Clean state. All planned features (feat-001 through feat-010) are done. Next work would be: publish 0.3.0 to npm, run the interactive install UX on macOS/Linux, and gather real-world usage feedback on the new cognitive laws.

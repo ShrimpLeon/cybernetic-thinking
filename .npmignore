@@ -5,3 +5,5 @@ session-handoff.md
 .npmignore
 .clawignore
 .gitignore
+books/
+.extract/

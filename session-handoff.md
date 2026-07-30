@@ -2,25 +2,41 @@
 
 ## Current State
 
-**Last Updated:** 2026-07-26
-**Current Version:** 0.2.0
-**All features complete:** feat-001 through feat-007
+**Last Updated:** 2026-07-30
+**Current Version:** 0.3.0
+**All features complete:** feat-001 through feat-010
 
 ## Recent Changes
 
-- feat-007: Added agent selection (`--agents`), location scope (`--global`, `--local`), and `--help` to `scripts/install.js`
-- Updated both README.md and README_CN.md with new flags and npm install clarification
-- Version bumped to 0.2.0 across package.json, SKILL.md, README.md, README_CN.md, CHANGELOG.md, progress.md, session-handoff.md
-- feat-007 review: Fixed auto-detection in install.js (default now scans for actually installed agents); removed implementation details and AI-sounding phrases from both READMEs
+- feat-008: Integrated 金观涛《控制论与科学方法论》 as the second source book.
+  - 4 new reference files (`possibility-space.md`, `black-box-epistemology.md`, `information-and-control.md`, `system-evolution.md`)
+  - 3 existing references extended with Book 2 anchors (`stability.md`, `closed-loop-workflow.md`, `original-text.md`)
+  - `SKILL.md` runtime prompt extended from 8 to 13 cognitive laws; principle map from 9 to 14 rows
+  - `evals/checks.json` extended from 12 to 18 items
+  - `templates/debugging-checklist.md` extended with possibility-space / black-box / falsifiability / ultra-stability checks
+- feat-009: Rewrote `scripts/install.js` to mirror `npx impeccable skills install` UX.
+  - Scan → list with `[√]`/`[ ]` markers → interactive menu (enter / a / s / n) → confirm → link
+  - New `--path <dir>` flag for custom install directories
+  - New `--yes` / `-y` flag (implied when not a TTY); non-TTY falls back to detected-agents-only
+- feat-010: Rewrote both `README.md` and `README_CN.md` in a natural human voice; removed AI-sounding phrases; listed both books, 13 laws, 12 references, and the new install UX.
+- Version bumped to 0.3.0 across `package.json`, `SKILL.md`, `README.md`, `README_CN.md`, `CHANGELOG.md`, `progress.md`, `session-handoff.md`.
 
 ## File Reference
 
-- `scripts/install.js` — install CLI with agent selection, location flags, and real auto-detection
-- `package.json` — bin field points to `scripts/install.js`
-- `README.md` / `README_CN.md` — installation docs with all flags, cleaned of implementation details
+- `SKILL.md` — core skill; 13 cognitive laws; 14-row principle map; both books cited
+- `assets/runtime-prompt.txt` — 13 cognitive laws, aligned with SKILL.md
+- `evals/checks.json` — 18 MUST/SHOULD checks
+- `references/` — 12 deep-dive references + `original-text.md` with excerpts from both books
+- `scripts/install.js` — interactive installer with scan/list/confirm flow, `--path`, `--yes`
+- `init.ps1` — verifies 24 files including the 4 new references
+- `README.md` / `README_CN.md` — human-facing docs, both books, 13 laws, 12 references
 
-## Next Steps
+## Blockers
 
-1. Publish v0.2.0 to npm with `npm publish`
-2. Test `npx skill-systems-thinking install --agents kilo` end-to-end
-3. Gather user feedback on install UX
+- None.
+
+## Recommended Next Step
+
+1. Publish v0.3.0 to npm: `npm publish`
+2. End-to-end test of the interactive install UX on macOS/Linux (only tested on Windows so far)
+3. Gather real-world feedback on the 5 new cognitive laws; iterate if LLMs still miss a principle
