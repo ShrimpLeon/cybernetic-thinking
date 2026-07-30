@@ -256,6 +256,7 @@ powershell -ExecutionPolicy Bypass -File init.ps1
 
 | 版本 | 日期 | 说明 |
 |---|---|---|
+| 0.3.1 | 2026-07-30 | 删除冗余的 `assets/runtime-prompt.txt`（内容已在 `SKILL.md` 内联）；清理 `assets/` 目录及相关引用 |
 | 0.3.0 | 2026-07-30 | 整合《控制论与科学方法论》；新增 4 篇参考、5 条认知法则；重写 install 交互（列表 + 选择 + 自定义路径） |
 | 0.2.0 | 2026-07-26 | 安装 CLI 新增 agent 选择和位置 flags |
 | 0.1.5 | 2026-07-25 | 分离 README.md / README_CN.md；统一版本号 |

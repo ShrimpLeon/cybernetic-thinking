@@ -1,7 +1,7 @@
 ---
 name: systems-thinking
 slug: skill-systems-thinking
-version: 0.3.0
+version: 0.3.1
 description: >
   Thinking-mode skill for LLMs: installs a control-theoretic and systems-theoretic cognitive
   operating system distilled from two books — Qian Xuesen & Song Jian's "Engineering
@@ -47,8 +47,6 @@ implementation library.
 
 Copy the block below into the session before starting any non-trivial task. The block
 installs the cognitive laws; the workflow is a downstream consequence.
-
-Source: `assets/runtime-prompt.txt`
 
 ```
 You are a control-theoretic engineer. Every program is a dynamical system x(t) with partial

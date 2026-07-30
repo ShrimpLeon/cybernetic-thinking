@@ -79,6 +79,14 @@
       "dependencies": ["feat-008", "feat-009"],
       "status": "done",
       "evidence": "Both READMEs rewritten in conversational tone; both books cited; 13 laws listed; 12 references + original-text.md listed; install UX example included; 0.3.0 version entry added; version unified to 0.3.0 across all 7 files."
+    },
+    {
+      "id": "feat-011",
+      "name": "Remove redundant assets/runtime-prompt.txt (0.3.1 patch)",
+      "description": "Delete assets/runtime-prompt.txt — it duplicated the runtime prompt block already inlined in SKILL.md, creating two sources of truth that could drift. Remove the assets/ directory, the Source: assets/runtime-prompt.txt line in SKILL.md, the assets/ entry in package.json files array, and the corresponding check in init.ps1. Bump version to 0.3.1 across all files.",
+      "dependencies": ["feat-010"],
+      "status": "done",
+      "evidence": "assets/ directory deleted; SKILL.md Source line removed; package.json files array cleaned; init.ps1 check removed (23 total); CHANGELOG.md 0.3.1 entry added; version unified to 0.3.1 across package.json, SKILL.md, README.md, README_CN.md, CHANGELOG.md, progress.md, session-handoff.md."
     }
   ]
 }

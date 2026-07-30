@@ -40,7 +40,6 @@ $required = @(
     "references/information-and-control.md",
     "templates/debugging-checklist.md",
     "templates/change-proposal.md",
-    "assets/runtime-prompt.txt",
     "CHANGELOG.md",
     "README.md",
     "README_CN.md",

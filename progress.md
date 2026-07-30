@@ -4,7 +4,7 @@
 
 **Last Updated:** 2026-07-30
 **Session ID:** [optional]
-**Current Version:** 0.3.0
+**Current Version:** 0.3.1
 
 ## Status
 
@@ -35,8 +35,7 @@
     - Runtime prompt block extended from 8 to 13 cognitive laws (added: possibility space, missing-channel suspicion, model-as-hypothesis, falsifiability, ultra-stability/bifurcation)
     - Workflow step 4 now mentions conjugate control (L → A → L⁻¹)
     - Principle map extended from 9 to 14 rows, each anchored to Book 1, Book 2, or both
-  - Updated `assets/runtime-prompt.txt` to match the 13 laws in SKILL.md
-  - Extended `evals/checks.json` from 12 to 18 items:
+  - Updated `evals/checks.json` from 12 to 18 items:
     - `possibility-space-named` (MUST)
     - `missing-channel-suspected` (SHOULD)
     - `model-falsifiable` (MUST)
@@ -67,6 +66,21 @@
   - `CHANGELOG.md` new entry
   - `progress.md` (this file)
   - `session-handoff.md`
+- [x] feat-011 — Remove redundant `assets/runtime-prompt.txt` (0.3.1 patch):
+  - The runtime prompt block is already inlined in `SKILL.md` (lines 51-85); the standalone `assets/runtime-prompt.txt` was a duplicate that could drift out of sync — a textbook "two sources of truth" anti-pattern
+  - Deleted `assets/runtime-prompt.txt` and the now-empty `assets/` directory
+  - Removed the `Source: assets/runtime-prompt.txt` line from `SKILL.md`
+  - Removed the `assets/` entry from `package.json` `files` array
+  - Removed the `assets/runtime-prompt.txt` check from `init.ps1` (now 23 checks)
+  - Added a 0.3.1 entry to `CHANGELOG.md` and version tables in both READMEs
+- [x] Version bumped to 0.3.1 across:
+  - `package.json`
+  - `SKILL.md` (frontmatter)
+  - `README.md` version table
+  - `README_CN.md` version table
+  - `CHANGELOG.md` new 0.3.1 entry
+  - `progress.md` (this file)
+  - `session-handoff.md`
 
 ### What's In Progress
 
@@ -74,7 +88,7 @@
 
 ### What's Next
 
-1. Publish v0.3.0 to npm with `npm publish`
+1. Publish v0.3.1 to npm with `npm publish`
 2. End-to-end test of the interactive install UX on macOS/Linux
 3. Consider adding worked examples to the 4 new reference files if real usage shows LLMs still missing a principle
 
@@ -92,8 +106,7 @@
 
 ## Files Modified This Session
 
-- `SKILL.md` — expanded frontmatter, scope, runtime prompt (13 laws), workflow, principle map (14 rows)
-- `assets/runtime-prompt.txt` — aligned with 13 laws
+- `SKILL.md` — expanded frontmatter, scope, runtime prompt (13 laws), workflow, principle map (14 rows); removed `Source: assets/runtime-prompt.txt` line
 - `evals/checks.json` — extended to 18 items
 - `templates/debugging-checklist.md` — extended with possibility-space / black-box / falsifiability / ultra-stability checks
 - `references/original-text.md` — added 10 Book 2 excerpts
@@ -111,19 +124,20 @@
 - `package.json` — version bumped to 0.3.0
 - `progress.md` — this update
 - `session-handoff.md` — this update
-- `feature_list.json` — added feat-008, feat-009, feat-010
+- `feature_list.json` — added feat-008, feat-009, feat-010, feat-011
 
 ## Evidence of Completion
 
-- [x] `init.ps1` — Verification Complete — OK (24 files, JSON valid)
+- [x] `init.ps1` — Verification Complete — OK (23 files, JSON valid; `assets/runtime-prompt.txt` check removed in 0.3.1)
 - [x] `evals/checks.json` — valid JSON: `python -m json.tool evals/checks.json`
 - [x] All cross-file markdown links resolve: none broken
-- [x] All 13 cognitive laws in `SKILL.md` have a corresponding entry in `assets/runtime-prompt.txt` and `evals/checks.json`
+- [x] All 13 cognitive laws in `SKILL.md` have a corresponding entry in `evals/checks.json` (no more duplicate `assets/runtime-prompt.txt`)
 - [x] All 14 rows in the principle map reference files that exist under `references/`
 - [x] Both books cited in `README.md`, `README_CN.md`, `SKILL.md`, `references/original-text.md`
-- [x] Version unified to `0.3.0` across `package.json`, `SKILL.md`, `README.md`, `README_CN.md`, `CHANGELOG.md`, `progress.md`, `session-handoff.md`
+- [x] Version unified to `0.3.1` across `package.json`, `SKILL.md`, `README.md`, `README_CN.md`, `CHANGELOG.md`, `progress.md`, `session-handoff.md`
 - [x] `scripts/install.js` tested: `--help`, default non-interactive flow, `--path`, and invalid `--agents` all behave correctly
+- [x] No remaining references to `assets/runtime-prompt.txt` or `assets/` in any tracked file except `CHANGELOG.md` (historical record)
 
 ## Notes for Next Session
 
-Clean state. All planned features (feat-001 through feat-010) are done. Next work would be: publish 0.3.0 to npm, run the interactive install UX on macOS/Linux, and gather real-world usage feedback on the new cognitive laws.
+Clean state. All planned features (feat-001 through feat-011) are done. Next work would be: publish 0.3.1 to npm, run the interactive install UX on macOS/Linux, and gather real-world usage feedback on the new cognitive laws.

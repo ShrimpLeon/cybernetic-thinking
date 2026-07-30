@@ -24,7 +24,6 @@ Versioning follows [Semantic Versioning](https://semver.org/) in `X.Y.Z` format.
 ### Changed
 - `scripts/install.js` rewritten to mirror `npx impeccable skills install` UX: scan → list → confirm → link. Non-TTY environments fall back to "install for detected agents only" (CI-friendly)
 - `SKILL.md` expanded: frontmatter, scope, runtime prompt block (13 laws), workflow, principle map (14 rows) now reference both books
-- `assets/runtime-prompt.txt` aligned with the 13 laws in `SKILL.md`
 - `references/stability.md` extended with stable-state structure, feedback overshoot, ultra-stability sections
 - `references/closed-loop-workflow.md` extended with feedback amplification and convergence-rate dynamics
 - `templates/debugging-checklist.md` extended with possibility space, black-box model, falsifiability, ultra-stability checks
@@ -33,6 +32,13 @@ Versioning follows [Semantic Versioning](https://semver.org/) in `X.Y.Z` format.
 
 ### Removed
 - AI-sounding marketing phrases from both READMEs (e.g. "这不是给人类做的知识测试", "one-line pitch" blocks)
+
+---
+
+## [0.3.1] — 2026-07-30
+
+### Removed
+- `assets/runtime-prompt.txt` — redundant with the runtime prompt block already inlined in `SKILL.md`; the duplicate copy could drift out of sync (this cleanup targets the LLM pain point of "two sources of truth"). Removed the `assets/` directory, the `Source: assets/runtime-prompt.txt` line in `SKILL.md`, the `assets/` entry in `package.json` `files`, and the corresponding check in `init.ps1` (now 23 checks)
 
 ---
 

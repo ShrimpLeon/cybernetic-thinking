@@ -256,6 +256,7 @@ This skill follows [Semantic Versioning](https://semver.org/) (`X.Y.Z`).
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.3.1 | 2026-07-30 | Removed redundant `assets/runtime-prompt.txt` (inlined in `SKILL.md`); cleaned up `assets/` directory and related references |
 | 0.3.0 | 2026-07-30 | Integrated *Cybernetics and Scientific Methodology*; added 4 references, 5 cognitive laws; rewrote install UX (scan list + selection + custom path) |
 | 0.2.0 | 2026-07-26 | Added agent selection and location flags to install CLI |
 | 0.1.5 | 2026-07-25 | Split README.md / README_CN.md; unified version numbers |
