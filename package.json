@@ -1,6 +1,6 @@
 {
-  "name": "skill-systems-thinking",
-  "version": "0.3.1",
+  "name": "skill-cybernetic-thinking",
+  "version": "0.4.0",
   "description": "Control-theoretic thinking scaffold for AI coding agents — identify state, measure, stabilize, close the loop.",
   "license": "MIT",
   "main": "SKILL.md",
@@ -21,7 +21,7 @@
     "install-skill": "node scripts/install.js"
   },
   "bin": {
-    "skill-systems-thinking": "scripts/install.js"
+    "skill-cybernetic-thinking": "scripts/install.js"
   },
   "keywords": [
     "skill",
@@ -35,15 +35,16 @@
     "windsurf",
     "zed",
     "control-theory",
-    "systems-thinking",
+    "cybernetics",
+    "cybernetic-thinking",
     "ai-agent",
     "coding-agent"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/ShrimpLeon/systems-thinking.git"
+    "url": "https://github.com/ShrimpLeon/cybernetic-thinking.git"
   },
-  "homepage": "https://github.com/ShrimpLeon/systems-thinking#readme",
+  "homepage": "https://github.com/ShrimpLeon/cybernetic-thinking#readme",
   "os": [
     "darwin",
     "linux",

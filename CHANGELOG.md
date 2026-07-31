@@ -1,11 +1,30 @@
 # Changelog
 
-All notable changes to `systems-thinking` will be documented in this file.
+All notable changes to `cybernetic-thinking` will be documented in this file.
 Versioning follows [Semantic Versioning](https://semver.org/) in `X.Y.Z` format.
 
 ---
 
-## [0.3.0] — 2026-07-30
+## [0.4.0] — 2026-07-30
+
+### Changed
+- **Renamed** the skill from `systems-thinking` to `cybernetic-thinking` across the entire project. Rationale: `systems-thinking` collided with many existing published skills; `cybernetic-thinking` is distinctive and accurately names the discipline (both source books are cybernetics classics — Engineering Cybernetics + Cybernetics and Scientific Methodology).
+- `package.json` `name`: `skill-systems-thinking` → `skill-cybernetic-thinking`
+- `package.json` `bin`, `repository.url`, `homepage` updated to the new name
+- `SKILL.md` frontmatter `name` and `slug` updated
+- `evals/checks.json` `skill` field updated
+- Both `README.md` and `README_CN.md` — all `npx` / `npm install` / `git clone` commands updated; added a rename notice for existing users
+- `scripts/install.js` header comment updated
+- `init.ps1` header comment updated
+
+### Notes
+- **npm**: the old package `skill-systems-thinking` cannot be renamed on npm; it will be marked as `deprecated` pointing to the new name. Users must install `skill-cybernetic-thinking` instead.
+- **Repo**: GitHub and Gitee repository renamed from `systems-thinking` to `cybernetic-thinking` (old URLs auto-redirect).
+- **Existing users**: remove the old skill directory (e.g. `rm -rf ~/.config/kilo/skills/skill-systems-thinking`) and reinstall with the new `npx` command.
+
+---
+
+## [0.3.1] — 2026-07-30
 
 ### Added
 - Integrated a second source book: 金观涛《控制论与科学方法论》(*Cybernetics and Scientific Methodology*), contributing the epistemological half of the skill (possibility space, black-box recognition, information–control dependence, ultra-stability, bifurcation)

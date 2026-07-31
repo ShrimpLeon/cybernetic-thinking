@@ -87,6 +87,14 @@
       "dependencies": ["feat-010"],
       "status": "done",
       "evidence": "assets/ directory deleted; SKILL.md Source line removed; package.json files array cleaned; init.ps1 check removed (23 total); CHANGELOG.md 0.3.1 entry added; version unified to 0.3.1 across package.json, SKILL.md, README.md, README_CN.md, CHANGELOG.md, progress.md, session-handoff.md."
+    },
+    {
+      "id": "feat-012",
+      "name": "Rename skill to cybernetic-thinking (0.4.0)",
+      "description": "Rename the skill from systems-thinking to cybernetic-thinking across the entire project to avoid name collisions with existing published skills. Update package.json name/bin/repo/homepage/keywords, SKILL.md frontmatter, evals/checks.json skill field, AGENTS.md references, both READMEs (all npx/npm/git commands + rename notice for existing users), scripts/install.js header, init.ps1 header. Add 0.4.0 CHANGELOG entry with migration notes. Bump version to 0.4.0 across all files. Leave historical CHANGELOG entries as-is for historical accuracy.",
+      "dependencies": ["feat-011"],
+      "status": "done",
+      "evidence": "All active references to systems-thinking/skill-systems-thinking updated to cybernetic-thinking/skill-cybernetic-thinking across 11 files (package.json, SKILL.md, evals/checks.json, AGENTS.md, scripts/install.js, init.ps1, README.md, README_CN.md, CHANGELOG.md, progress.md, session-handoff.md); rename notice added to both READMEs; 0.4.0 CHANGELOG entry with npm-deprecate + repo-rename + existing-user-cleanup notes; version unified to 0.4.0 across all 7 version-bearing files; historical CHANGELOG entries left as-is."
     }
   ]
 }

@@ -4,7 +4,7 @@
 
 **Last Updated:** 2026-07-30
 **Session ID:** [optional]
-**Current Version:** 0.3.1
+**Current Version:** 0.4.0
 
 ## Status
 
@@ -81,6 +81,25 @@
   - `CHANGELOG.md` new 0.3.1 entry
   - `progress.md` (this file)
   - `session-handoff.md`
+- [x] feat-012 — Rename skill to `cybernetic-thinking` (0.4.0):
+  - Reason: `systems-thinking` collided with many existing published skills; `cybernetic-thinking` is distinctive and accurately names the discipline (both source books are cybernetics classics)
+  - `package.json`: name `skill-systems-thinking` → `skill-cybernetic-thinking`; bin, repository.url, homepage updated; keywords updated (removed `systems-thinking`, added `cybernetics` + `cybernetic-thinking`)
+  - `SKILL.md` frontmatter: name, slug updated
+  - `evals/checks.json`: skill field updated
+  - `scripts/install.js`: header comment updated (skillName auto-derives from pkg.name)
+  - `init.ps1`: header comment updated
+  - `AGENTS.md`: two references to `systems-thinking` updated
+  - Both `README.md` and `README_CN.md`: all `npx` / `npm install` / `git clone` commands updated via global replace; added a rename notice for existing users; 0.4.0 version table entry added
+  - `CHANGELOG.md`: new 0.4.0 entry documenting the rename with migration notes (npm deprecate old, repo rename, existing-user cleanup)
+  - Historical CHANGELOG entries (0.1.x – 0.3.1) left as-is for historical accuracy
+- [x] Version bumped to 0.4.0 across:
+  - `package.json`
+  - `SKILL.md` (frontmatter)
+  - `README.md` version table
+  - `README_CN.md` version table
+  - `CHANGELOG.md` new 0.4.0 entry
+  - `progress.md` (this file)
+  - `session-handoff.md`
 
 ### What's In Progress
 
@@ -88,9 +107,10 @@
 
 ### What's Next
 
-1. Publish v0.3.1 to npm with `npm publish`
-2. End-to-end test of the interactive install UX on macOS/Linux
-3. Consider adding worked examples to the 4 new reference files if real usage shows LLMs still missing a principle
+1. Publish v0.4.0 to npm with `npm publish` (new package `skill-cybernetic-thinking`); deprecate old `skill-systems-thinking`
+2. Rename GitHub and Gitee repos from `systems-thinking` to `cybernetic-thinking`; update local `git remote set-url origin <new-url>`
+3. End-to-end test of the interactive install UX on macOS/Linux
+4. Consider adding worked examples to the 4 new reference files if real usage shows LLMs still missing a principle
 
 ## Blockers / Risks
 
@@ -134,10 +154,11 @@
 - [x] All 13 cognitive laws in `SKILL.md` have a corresponding entry in `evals/checks.json` (no more duplicate `assets/runtime-prompt.txt`)
 - [x] All 14 rows in the principle map reference files that exist under `references/`
 - [x] Both books cited in `README.md`, `README_CN.md`, `SKILL.md`, `references/original-text.md`
-- [x] Version unified to `0.3.1` across `package.json`, `SKILL.md`, `README.md`, `README_CN.md`, `CHANGELOG.md`, `progress.md`, `session-handoff.md`
+- [x] Version unified to `0.4.0` across `package.json`, `SKILL.md`, `README.md`, `README_CN.md`, `CHANGELOG.md`, `progress.md`, `session-handoff.md`
 - [x] `scripts/install.js` tested: `--help`, default non-interactive flow, `--path`, and invalid `--agents` all behave correctly
 - [x] No remaining references to `assets/runtime-prompt.txt` or `assets/` in any tracked file except `CHANGELOG.md` (historical record)
+- [x] No remaining active references to old name `skill-systems-thinking` / `systems-thinking` except in historical CHANGELOG entries and the rename notice in READMEs
 
 ## Notes for Next Session
 
-Clean state. All planned features (feat-001 through feat-011) are done. Next work would be: publish 0.3.1 to npm, run the interactive install UX on macOS/Linux, and gather real-world usage feedback on the new cognitive laws.
+Clean state. All planned features (feat-001 through feat-012) are done. Next work: publish 0.4.0 to npm as `skill-cybernetic-thinking`, deprecate `skill-systems-thinking`, rename GitHub/Gitee repos to `cybernetic-thinking`, update git remote.

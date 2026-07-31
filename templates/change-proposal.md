@@ -1,4 +1,4 @@
-# Change Proposal (control-systems thinking scaffold)
+# Change Proposal (cybernetic thinking scaffold)
 
 Fill this in before a non-trivial change. It forces the control-theoretic mindset: name the
 plant, the setpoint, the actuator, and how you will know it converged.

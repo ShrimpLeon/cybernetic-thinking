@@ -1,4 +1,4 @@
-# init.ps1 — Harness verification for systems-thinking skill
+# init.ps1 — Harness verification for cybernetic-thinking skill
 # Required by AGENTS.md. Run before claiming a feature done.
 
 param()

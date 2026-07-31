@@ -1,5 +1,5 @@
 {
-  "skill": "systems-thinking",
+  "skill": "cybernetic-thinking",
   "purpose": "Self-audit checks an LLM applies to its own reasoning and output to confirm the control-theoretic and systems-theoretic thinking mode was active. The LLM must pass all MUST items before declaring success. These are not process audits; they probe whether the LLM *thought* in control terms: identified state and possibility space, treated the model as a black-box hypothesis, demanded observability and information channels, checked stability and convergence, respected bounds, etc.",
   "cognitive_laws": [
     "Name x before u. Unnamed targets are unregulated.",

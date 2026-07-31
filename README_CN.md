@@ -1,4 +1,4 @@
-# systems-thinking
+# cybernetic-thinking
 
 > **中文** | [English](README.md)
 
@@ -36,16 +36,18 @@
 
 本 skill 面向支持自定义 skill 的 AI 编程助手（Kilo、Claude Code、Aider、Cursor 等）。
 
+> **0.4.0 改名**：包名从 `skill-systems-thinking` 改为 `skill-cybernetic-thinking`。装过旧名的用户请先删掉旧链接：`rm -rf ~/.config/kilo/skills/skill-systems-thinking`（路径按你的 agent 调整），再装新的。
+
 ### npx 安装（推荐）
 
 ```bash
-npx skill-systems-thinking install
+npx skill-cybernetic-thinking install
 ```
 
 安装程序会先扫描你机器上装了哪些 AI 编程助手，列出来给你看，然后让你确认装到哪些。检测到的 agent 默认会被选中，也可以手动选，或者装到自定义路径。
 
 ```text
-$ npx skill-systems-thinking install
+$ npx skill-cybernetic-thinking install
 
 Scanning for installed AI agents...
 
@@ -67,23 +69,23 @@ Choose:
 
 ```bash
 # 跳过交互，直接装到检测到的 agent
-npx skill-systems-thinking install -y
+npx skill-cybernetic-thinking install -y
 
 # 指定 agent（不交互）
-npx skill-systems-thinking install -a kilo,claude-code
+npx skill-cybernetic-thinking install -a kilo,claude-code
 
 # 装到自定义目录（适合不在列表里的 agent）
-npx skill-systems-thinking install --path ~/my-agent/skills
+npx skill-cybernetic-thinking install --path ~/my-agent/skills
 
 # 只装全局路径 / 只装项目路径
-npx skill-systems-thinking install --global
-npx skill-systems-thinking install --local
+npx skill-cybernetic-thinking install --global
+npx skill-cybernetic-thinking install --local
 
 # 强制覆盖已有链接
-npx skill-systems-thinking install --force
+npx skill-cybernetic-thinking install --force
 
 # 查看帮助
-npx skill-systems-thinking install --help
+npx skill-cybernetic-thinking install --help
 ```
 
 非 TTY 环境（CI、管道）下会自动跳过交互，只装到检测到的 agent。
@@ -91,23 +93,23 @@ npx skill-systems-thinking install --help
 ### npm install（仅下载）
 
 ```bash
-npm install skill-systems-thinking
+npm install skill-cybernetic-thinking
 ```
 
 这步只把包下载到 `node_modules`，**不会**链接到任何 agent 目录。下完还是要跑一遍：
 
 ```bash
-npx skill-systems-thinking install
+npx skill-cybernetic-thinking install
 ```
 
 ### GitHub / Gitee 下载
 
 ```bash
-git clone https://github.com/ShrimpLeon/systems-thinking.git
+git clone https://github.com/ShrimpLeon/cybernetic-thinking.git
 # 或
-git clone https://gitee.com/leon0903/systems-thinking.git
+git clone https://gitee.com/leon0903/cybernetic-thinking.git
 
-cp -r systems-thinking <agent-skills-dir>/
+cp -r cybernetic-thinking <agent-skills-dir>/
 ```
 
 ### 各 agent 的 skill 目录
@@ -256,6 +258,7 @@ powershell -ExecutionPolicy Bypass -File init.ps1
 
 | 版本 | 日期 | 说明 |
 |---|---|---|
+| 0.4.0 | 2026-07-30 | **改名**：`skill-systems-thinking` → `skill-cybernetic-thinking`（包名、仓库名、skill 名同步）。旧包在 npm 标记为 deprecated。 |
 | 0.3.1 | 2026-07-30 | 删除冗余的 `assets/runtime-prompt.txt`（内容已在 `SKILL.md` 内联）；清理 `assets/` 目录及相关引用 |
 | 0.3.0 | 2026-07-30 | 整合《控制论与科学方法论》；新增 4 篇参考、5 条认知法则；重写 install 交互（列表 + 选择 + 自定义路径） |
 | 0.2.0 | 2026-07-26 | 安装 CLI 新增 agent 选择和位置 flags |

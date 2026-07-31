@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * systems-thinking — skill installer
+ * cybernetic-thinking — skill installer
  *
  * UX (mirrors `npx impeccable skills install`):
  *   1. Scan the machine for known AI coding agents.

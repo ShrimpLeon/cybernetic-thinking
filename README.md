@@ -1,4 +1,4 @@
-# systems-thinking
+# cybernetic-thinking
 
 > [中文](README_CN.md) | **English**
 
@@ -36,16 +36,18 @@ Every change injects a control signal. You only partially observe the true state
 
 This skill targets AI coding agents that support custom skills (Kilo, Claude Code, Aider, Cursor, etc.).
 
+> **Renamed in 0.4.0**: the package was renamed from `skill-systems-thinking` to `skill-cybernetic-thinking`. If you installed the old name, remove it first: `rm -rf ~/.config/kilo/skills/skill-systems-thinking` (adjust for your agent), then install the new one.
+
 ### npx install (recommended)
 
 ```bash
-npx skill-systems-thinking install
+npx skill-cybernetic-thinking install
 ```
 
 The installer first scans your machine for known AI agents, prints the list, and then asks you to confirm which ones to install for. Detected agents are selected by default; you can pick manually or install to a custom path.
 
 ```text
-$ npx skill-systems-thinking install
+$ npx skill-cybernetic-thinking install
 
 Scanning for installed AI agents...
 
@@ -67,23 +69,23 @@ Common flags:
 
 ```bash
 # Skip prompts, install for detected agents
-npx skill-systems-thinking install -y
+npx skill-cybernetic-thinking install -y
 
 # Pick agents explicitly (no prompts)
-npx skill-systems-thinking install -a kilo,claude-code
+npx skill-cybernetic-thinking install -a kilo,claude-code
 
 # Install to a custom directory (for agents not on the list)
-npx skill-systems-thinking install --path ~/my-agent/skills
+npx skill-cybernetic-thinking install --path ~/my-agent/skills
 
 # Global paths only / project-local only
-npx skill-systems-thinking install --global
-npx skill-systems-thinking install --local
+npx skill-cybernetic-thinking install --global
+npx skill-cybernetic-thinking install --local
 
 # Overwrite existing links
-npx skill-systems-thinking install --force
+npx skill-cybernetic-thinking install --force
 
 # Help
-npx skill-systems-thinking install --help
+npx skill-cybernetic-thinking install --help
 ```
 
 In non-TTY environments (CI, pipes) it skips prompts and installs only for detected agents.
@@ -91,23 +93,23 @@ In non-TTY environments (CI, pipes) it skips prompts and installs only for detec
 ### npm install (download only)
 
 ```bash
-npm install skill-systems-thinking
+npm install skill-cybernetic-thinking
 ```
 
 This only downloads the package into `node_modules`; it does **not** link anything into your agent skill directories. After this, still run:
 
 ```bash
-npx skill-systems-thinking install
+npx skill-cybernetic-thinking install
 ```
 
 ### GitHub / Gitee download
 
 ```bash
-git clone https://github.com/ShrimpLeon/systems-thinking.git
+git clone https://github.com/ShrimpLeon/cybernetic-thinking.git
 # or
-git clone https://gitee.com/leon0903/systems-thinking.git
+git clone https://gitee.com/leon0903/cybernetic-thinking.git
 
-cp -r systems-thinking <agent-skills-dir>/
+cp -r cybernetic-thinking <agent-skills-dir>/
 ```
 
 ### Agent skill directories
@@ -256,6 +258,7 @@ This skill follows [Semantic Versioning](https://semver.org/) (`X.Y.Z`).
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.4.0 | 2026-07-30 | **Renamed** from `skill-systems-thinking` to `skill-cybernetic-thinking` (package, repo, skill name). Old package deprecated on npm. |
 | 0.3.1 | 2026-07-30 | Removed redundant `assets/runtime-prompt.txt` (inlined in `SKILL.md`); cleaned up `assets/` directory and related references |
 | 0.3.0 | 2026-07-30 | Integrated *Cybernetics and Scientific Methodology*; added 4 references, 5 cognitive laws; rewrote install UX (scan list + selection + custom path) |
 | 0.2.0 | 2026-07-26 | Added agent selection and location flags to install CLI |

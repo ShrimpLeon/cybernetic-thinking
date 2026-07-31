@@ -1,7 +1,7 @@
 ---
-name: systems-thinking
-slug: skill-systems-thinking
-version: 0.3.1
+name: cybernetic-thinking
+slug: skill-cybernetic-thinking
+version: 0.4.0
 description: >
   Thinking-mode skill for LLMs: installs a control-theoretic and systems-theoretic cognitive
   operating system distilled from two books — Qian Xuesen & Song Jian's "Engineering
@@ -15,9 +15,9 @@ description: >
   systems, or any task where "correct AND robust" cannot be verified by a single happy path.
 ---
 
-# Systems Thinking
+# Cybernetic Thinking
 
-A control-systems and systems-theory worldview for writing and debugging software, distilled
+A cybernetic worldview for writing and debugging software, distilled
 from two books:
 
 - Qian Xuesen (钱学森) & Song Jian (宋健), *Engineering Cybernetics* (工程控制论) — the
