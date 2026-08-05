@@ -10,7 +10,7 @@ A skill for AI coding agents. It does one thing: before the model writes or chan
 
 This skill doesn't teach the model *how to code*. It teaches it *how to think*. Two books underneath:
 
-- Qian Xuesen (钱学森) & Song Jian (宋健), *Engineering Cybernetics* — the mathematical foundations: stability, feedback, multivariable decoupling, disturbance compensation, bounded control, discrete systems.
+- Tsien Hsue-shen (钱学森) & Song Jian (宋健), *Engineering Cybernetics* — the mathematical foundations: stability, feedback, multivariable decoupling, disturbance compensation, bounded control, discrete systems.
 - Jin Guantao (金观涛), *Cybernetics and Scientific Methodology* — the epistemological foundations: possibility space, conjugate control, black-box recognition, information–control dependence, ultra-stability, bifurcation, catastrophe.
 
 Language- and framework-agnostic. A web service, a data pipeline, a compiler pass, or an LLM agent loop — all fit.
@@ -44,26 +44,32 @@ This skill targets AI coding agents that support custom skills (Kilo, Claude Cod
 npx skill-cybernetic-thinking install
 ```
 
-The installer first scans your machine for known AI agents, prints the list, and then asks you to confirm which ones to install for. Detected agents are selected by default; you can pick manually or install to a custom path.
+The installer uses an interactive TUI (powered by `@clack/prompts`). It scans your machine for known AI agents, shows the detected ones, then walks you through: detected-only or customize → pick agents → project or global location → link.
 
 ```text
 $ npx skill-cybernetic-thinking install
 
-Scanning for installed AI agents...
+◇ Detected agents
+  Claude Code      ~/.claude
+  Codex CLI        ~/.codex
+  Kilo             ~/.kilo
 
-  [√] kilo           Kilo             → ~/.config/kilo/skills
-  [ ] claude-code    Claude Code
-  [√] openai-codex   OpenAI Codex     → ~/.codex/skills
-  ...
+◆ Install for detected agents only, or add more?
+│ ● Detected only (claude, codex, kilo)
+│ ○ Customize...
+└
+◆ Install location
+│ ● Project (/current/dir)
+│ ○ Global (~)
+└
+  [ok]   ~/.claude/skills/skill-cybernetic-thinking
+  [ok]   ~/.codex/skills/skill-cybernetic-thinking
+  [ok]   ~/.kilo/skills/skill-cybernetic-thinking
 
-Detected 2 agent(s).
-
-  [enter]  install for detected agents (default)
-  [a]      install for ALL known agents
-  [s]      select from a list
-  [n]      abort
-Choose:
+◇ Done! installed: 3, skipped: 0, failed: 0
 ```
+
+Choose `Customize...` to open a multiselect (space to toggle) of all known agents.
 
 Common flags:
 
@@ -72,7 +78,7 @@ Common flags:
 npx skill-cybernetic-thinking install -y
 
 # Pick agents explicitly (no prompts)
-npx skill-cybernetic-thinking install -a kilo,claude-code
+npx skill-cybernetic-thinking install -a claude,codex
 
 # Install to a custom directory (for agents not on the list)
 npx skill-cybernetic-thinking install --path ~/my-agent/skills
@@ -88,7 +94,7 @@ npx skill-cybernetic-thinking install --force
 npx skill-cybernetic-thinking install --help
 ```
 
-In non-TTY environments (CI, pipes) it skips prompts and installs only for detected agents.
+In non-TTY environments (CI, pipes) the TUI is skipped and it installs for all detected agents at global scope.
 
 ### npm install (download only)
 
@@ -118,14 +124,15 @@ npx install links automatically. For manual install, here are the directories:
 
 | Agent | Skill directory |
 |---|---|
-| Kilo | `~/.config/kilo/skills/` or project `.kilo/agent/` |
-| Claude Code | `~/.claude/plugins/custom-skills/` or project `.claude/` |
-| Aider | `--skills-dir` path |
-| Cursor | Project `.cursor/rules/` or global settings |
-| OpenAI Codex | `~/.codex/skills/` |
-| GitHub Copilot | `~/.copilot/skills/` |
-| Windsurf | `~/.windsurf/skills/` |
-| Zed | `~/.zed/skills/` |
+| Claude Code | `~/.claude/skills/` or project `.claude/skills/` |
+| Codex CLI | `~/.codex/skills/` or project `.codex/skills/` |
+| Cursor | `~/.cursor/skills/` or project `.cursor/skills/` |
+| Gemini CLI | `~/.gemini/skills/` or project `.gemini/skills/` |
+| GitHub Copilot | `~/.github/skills/` or project `.github/skills/` |
+| Kilo | `~/.kilo/skills/` or project `.kilo/skills/` |
+| Aider | `~/.aider/skills/` or project `.aider/skills/` |
+| Windsurf | `~/.windsurf/skills/` or project `.windsurf/skills/` |
+| Zed | `~/.zed/skills/` or project `.zed/skills/` |
 
 For agents not on the list, use `--path` to point at the directory.
 
@@ -258,6 +265,7 @@ This skill follows [Semantic Versioning](https://semver.org/) (`X.Y.Z`).
 
 | Version | Date | Notes |
 |---|---|---|
+| 0.5.0 | 2026-08-05 | Rewrote `scripts/install.js` with `@clack/prompts` TUI (detect → select → location → install → done); fixed `install` subcommand crash; added Gemini CLI; non-TTY auto-fallback. Added `author`/`tags` to `SKILL.md` frontmatter + `skills-sh` keyword for skills.sh discoverability. |
 | 0.4.0 | 2026-07-30 | **Renamed** from `skill-systems-thinking` to `skill-cybernetic-thinking` (package, repo, skill name). Old package deprecated on npm. |
 | 0.3.1 | 2026-07-30 | Removed redundant `assets/runtime-prompt.txt` (inlined in `SKILL.md`); cleaned up `assets/` directory and related references |
 | 0.3.0 | 2026-07-30 | Integrated *Cybernetics and Scientific Methodology*; added 4 references, 5 cognitive laws; rewrote install UX (scan list + selection + custom path) |

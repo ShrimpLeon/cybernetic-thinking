@@ -44,26 +44,32 @@
 npx skill-cybernetic-thinking install
 ```
 
-安装程序会先扫描你机器上装了哪些 AI 编程助手，列出来给你看，然后让你确认装到哪些。检测到的 agent 默认会被选中，也可以手动选，或者装到自定义路径。
+安装程序用 `@clack/prompts` 做了一个交互式 TUI。它先扫描你机器上装了哪些 AI 编程助手，列出来，然后引导你：只装检测到的 / 自定义选择 → 选 agent → 项目级 / 全局 → 链接。
 
 ```text
 $ npx skill-cybernetic-thinking install
 
-Scanning for installed AI agents...
+◇ Detected agents
+  Claude Code      ~/.claude
+  Codex CLI        ~/.codex
+  Kilo             ~/.kilo
 
-  [√] kilo           Kilo             → ~/.config/kilo/skills
-  [ ] claude-code    Claude Code
-  [√] openai-codex   OpenAI Codex     → ~/.codex/skills
-  ...
+◆ Install for detected agents only, or add more?
+│ ● Detected only (claude, codex, kilo)
+│ ○ Customize...
+└
+◆ Install location
+│ ● Project (/current/dir)
+│ ○ Global (~)
+└
+  [ok]   ~/.claude/skills/skill-cybernetic-thinking
+  [ok]   ~/.codex/skills/skill-cybernetic-thinking
+  [ok]   ~/.kilo/skills/skill-cybernetic-thinking
 
-Detected 2 agent(s).
-
-  [enter]  install for detected agents (default)
-  [a]      install for ALL known agents
-  [s]      select from a list
-  [n]      abort
-Choose:
+◇ Done! installed: 3, skipped: 0, failed: 0
 ```
+
+选 `Customize...` 会打开一个多选菜单（空格切换选中），列出所有已知 agent。
 
 常用参数：
 
@@ -72,7 +78,7 @@ Choose:
 npx skill-cybernetic-thinking install -y
 
 # 指定 agent（不交互）
-npx skill-cybernetic-thinking install -a kilo,claude-code
+npx skill-cybernetic-thinking install -a claude,codex
 
 # 装到自定义目录（适合不在列表里的 agent）
 npx skill-cybernetic-thinking install --path ~/my-agent/skills
@@ -88,7 +94,7 @@ npx skill-cybernetic-thinking install --force
 npx skill-cybernetic-thinking install --help
 ```
 
-非 TTY 环境（CI、管道）下会自动跳过交互，只装到检测到的 agent。
+非 TTY 环境（CI、管道）下会跳过 TUI，直接装到所有检测到的 agent 的全局目录。
 
 ### npm install（仅下载）
 
@@ -118,14 +124,15 @@ npx 安装会自动链接。手动安装时，各 agent 的目录如下：
 
 | Agent | Skill 目录 |
 |---|---|
-| Kilo | `~/.config/kilo/skills/` 或项目 `.kilo/agent/` |
-| Claude Code | `~/.claude/plugins/custom-skills/` 或项目 `.claude/` |
-| Aider | `--skills-dir` 路径 |
-| Cursor | 项目 `.cursor/rules/` 或全局设置 |
-| OpenAI Codex | `~/.codex/skills/` |
-| GitHub Copilot | `~/.copilot/skills/` |
-| Windsurf | `~/.windsurf/skills/` |
-| Zed | `~/.zed/skills/` |
+| Claude Code | `~/.claude/skills/` 或项目 `.claude/skills/` |
+| Codex CLI | `~/.codex/skills/` 或项目 `.codex/skills/` |
+| Cursor | `~/.cursor/skills/` 或项目 `.cursor/skills/` |
+| Gemini CLI | `~/.gemini/skills/` 或项目 `.gemini/skills/` |
+| GitHub Copilot | `~/.github/skills/` 或项目 `.github/skills/` |
+| Kilo | `~/.kilo/skills/` 或项目 `.kilo/skills/` |
+| Aider | `~/.aider/skills/` 或项目 `.aider/skills/` |
+| Windsurf | `~/.windsurf/skills/` 或项目 `.windsurf/skills/` |
+| Zed | `~/.zed/skills/` 或项目 `.zed/skills/` |
 
 不在列表里的 agent，用 `--path` 指定目录。
 
@@ -258,6 +265,7 @@ powershell -ExecutionPolicy Bypass -File init.ps1
 
 | 版本 | 日期 | 说明 |
 |---|---|---|
+| 0.5.0 | 2026-08-05 | 用 `@clack/prompts` 重写 `scripts/install.js` 的 TUI 交互（检测 → 选择 → 位置 → 安装 → 完成）；修复 `install` 子命令崩溃；新增 Gemini CLI；非 TTY 自动降级。给 `SKILL.md` frontmatter 加 `author`/`tags` + `package.json` 加 `skills-sh` keyword 以支持 skills.sh 收录。 |
 | 0.4.0 | 2026-07-30 | **改名**：`skill-systems-thinking` → `skill-cybernetic-thinking`（包名、仓库名、skill 名同步）。旧包在 npm 标记为 deprecated。 |
 | 0.3.1 | 2026-07-30 | 删除冗余的 `assets/runtime-prompt.txt`（内容已在 `SKILL.md` 内联）；清理 `assets/` 目录及相关引用 |
 | 0.3.0 | 2026-07-30 | 整合《控制论与科学方法论》；新增 4 篇参考、5 条认知法则；重写 install 交互（列表 + 选择 + 自定义路径） |

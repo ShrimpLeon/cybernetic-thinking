@@ -1,10 +1,10 @@
 ---
 name: cybernetic-thinking
 slug: skill-cybernetic-thinking
-version: 0.4.0
+version: 0.5.0
 description: >
   Thinking-mode skill for LLMs: installs a control-theoretic and systems-theoretic cognitive
-  operating system distilled from two books — Qian Xuesen & Song Jian's "Engineering
+  operating system distilled from two books — Tsien Hsue-shen & Song Jian's "Engineering
   Cybernetics" (工程控制论) and Jin Guantao's "Cybernetics and Scientific Methodology"
   (控制论与科学方法论). Shapes how the LLM reasons about systems, not just how it writes patch
   diffs. Teaches the model to identify state and possibility space, model the plant as a
@@ -20,7 +20,7 @@ description: >
 A cybernetic worldview for writing and debugging software, distilled
 from two books:
 
-- Qian Xuesen (钱学森) & Song Jian (宋健), *Engineering Cybernetics* (工程控制论) — the
+- Tsien Hsue-shen (钱学森) & Song Jian (宋健), *Engineering Cybernetics* (工程控制论) — the
   mathematical foundations: stability, feedback, multivariable decoupling, disturbance
   compensation, bounded control, discrete systems.
 - Jin Guantao (金观涛), *Cybernetics and Scientific Methodology* (控制论与科学方法论) — the

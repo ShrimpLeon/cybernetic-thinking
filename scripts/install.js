@@ -3,298 +3,318 @@
 /**
  * cybernetic-thinking — skill installer
  *
- * UX (mirrors `npx impeccable skills install`):
- *   1. Scan the machine for known AI coding agents.
- *   2. Print a clear list — detected agents are marked, undetected ones greyed out.
- *   3. If stdout is a TTY, prompt the user to confirm / select / supply a custom path.
- *      If not a TTY (CI, piped), fall back to installing for all detected agents.
- *   4. Link the skill into each selected agent's skill directory (junction on Windows,
- *      symlink elsewhere). Supports a custom --path for non-standard layouts.
+ * UX mirrors `npx impeccable skills install` using @clack/prompts:
+ *   1. Scan for known AI coding agents.
+ *   2. Show detected agents with paths.
+ *   3. Prompt: detected-only or customize selection.
+ *   4. Prompt: project or global install location.
+ *   5. Link the skill into each selected agent's skills directory.
+ *
+ * Non-interactive fallback (CI, piped stdin): installs for all detected
+ * agents at global scope.
+ *
+ * Flags (for scripting / CI):
+ *   --agents, -a <slugs>   Comma-separated agent slugs (skip prompts)
+ *   --path <dir>           Install into a custom directory
+ *   --global, -g           Global scope only
+ *   --local, -l            Project scope only
+ *   --yes, -y              Skip prompts (use detected agents)
+ *   --force, -f            Overwrite existing links
+ *   --help, -h             Show help
  */
 
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const readline = require('readline');
 
 const pkg = require(path.join(__dirname, '..', 'package.json'));
 const skillName = pkg.name;
-const skillVersion = pkg.version;
 const skillDir = path.join(__dirname, '..');
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Agent registry
+// Detection: ~/.<root> (global) or ./.<root> (project)
+// Install:   ~/.<root>/skills/<skillName> or ./.<root>/skills/<skillName>
 // ─────────────────────────────────────────────────────────────────────────────
 
 const agents = [
-  {
-    name: 'Kilo',
-    slug: 'kilo',
-    paths: [
-      { location: 'global', dir: path.join(os.homedir(), '.config', 'kilo', 'skills') },
-      { location: 'local',  dir: path.join(process.cwd(), '.kilo', 'agent') }
-    ]
-  },
-  {
-    name: 'Claude Code',
-    slug: 'claude-code',
-    paths: [
-      { location: 'global', dir: path.join(os.homedir(), '.claude', 'plugins', 'custom-skills') },
-      { location: 'local',  dir: path.join(process.cwd(), '.claude') }
-    ]
-  },
-  {
-    name: 'Aider',
-    slug: 'aider',
-    paths: [
-      { location: 'global', dir: path.join(os.homedir(), '.aider', 'skills') },
-      { location: 'local',  dir: path.join(process.cwd(), '.aider', 'skills') }
-    ]
-  },
-  {
-    name: 'Cursor',
-    slug: 'cursor',
-    paths: [
-      { location: 'local', dir: path.join(process.cwd(), '.cursor', 'rules') }
-    ]
-  },
-  {
-    name: 'OpenAI Codex',
-    slug: 'openai-codex',
-    paths: [
-      { location: 'global', dir: path.join(os.homedir(), '.codex', 'skills') }
-    ]
-  },
-  {
-    name: 'GitHub Copilot',
-    slug: 'github-copilot',
-    paths: [
-      { location: 'global', dir: path.join(os.homedir(), '.copilot', 'skills') }
-    ]
-  },
-  {
-    name: 'Windsurf',
-    slug: 'windsurf',
-    paths: [
-      { location: 'global', dir: path.join(os.homedir(), '.windsurf', 'skills') }
-    ]
-  },
-  {
-    name: 'Zed',
-    slug: 'zed',
-    paths: [
-      { location: 'global', dir: path.join(os.homedir(), '.zed', 'skills') }
-    ]
-  }
+  { name: 'Claude Code',    slug: 'claude',   root: '.claude'   },
+  { name: 'Codex CLI',      slug: 'codex',    root: '.codex'    },
+  { name: 'Cursor',         slug: 'cursor',   root: '.cursor'   },
+  { name: 'Gemini CLI',     slug: 'gemini',   root: '.gemini'   },
+  { name: 'GitHub Copilot', slug: 'copilot',  root: '.github'   },
+  { name: 'Kilo',           slug: 'kilo',     root: '.kilo'     },
+  { name: 'Aider',          slug: 'aider',    root: '.aider'    },
+  { name: 'Windsurf',       slug: 'windsurf', root: '.windsurf' },
+  { name: 'Zed',            slug: 'zed',      root: '.zed'      },
 ];
+
+const SKILL_SUBDIR = 'skills';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
-function dirExists(dir) {
-  try {
-    return fs.statSync(dir).isDirectory();
-  } catch {
-    return false;
-  }
+function dirExists(p) {
+  try { return fs.statSync(p).isDirectory(); } catch { return false; }
 }
 
 function isTTY() {
   return process.stdin.isTTY === true && process.stdout.isTTY === true;
 }
 
-function linkSkill(targetDir, agentName, force) {
-  const dest = path.join(targetDir, skillName);
-  if (fs.existsSync(dest) || fs.existsSync(dest + '.lnk')) {
-    if (!force) {
-      console.log(`  [skip] ${agentName}: already linked at ${dest}`);
-      return 'skipped';
-    }
-    try {
-      fs.rmSync(dest, { recursive: true, force: true });
-    } catch (err) {
-      console.log(`  [fail] ${agentName}: could not remove existing ${dest} (${err.message})`);
-      return 'failed';
+function relHome(p) {
+  const home = os.homedir();
+  if (p === home) return '~';
+  if (p.startsWith(home)) return '~' + p.slice(home.length).replace(/\\/g, '/');
+  return p.replace(/\\/g, '/');
+}
+
+function globalDetect(a)  { return path.join(os.homedir(), a.root); }
+function globalInstall(a)  { return path.join(os.homedir(), a.root, SKILL_SUBDIR); }
+function projectDetect(a)  { return path.join(process.cwd(), a.root); }
+function projectInstall(a) { return path.join(process.cwd(), a.root, SKILL_SUBDIR); }
+
+function detectAll() {
+  const found = [];
+  for (const a of agents) {
+    if (dirExists(globalDetect(a)))  found.push({ agent: a, scope: 'global',  dir: globalDetect(a) });
+    if (dirExists(projectDetect(a))) found.push({ agent: a, scope: 'project', dir: projectDetect(a) });
+  }
+  return found;
+}
+
+function linkSkill(targetParentDir, force) {
+  const dest = path.join(targetParentDir, skillName);
+  const label = relHome(targetParentDir);
+  if (fs.existsSync(dest)) {
+    if (!force) { console.log(`  [skip] ${label} (already linked)`); return 'skipped'; }
+    try { fs.rmSync(dest, { recursive: true, force: true }); } catch (e) {
+      console.log(`  [fail] ${label} (${e.message})`); return 'failed';
     }
   }
   try {
-    fs.mkdirSync(targetDir, { recursive: true });
-    // 'junction' works on Windows without admin rights; harmless elsewhere.
+    fs.mkdirSync(targetParentDir, { recursive: true });
     fs.symlinkSync(skillDir, dest, 'junction');
-    console.log(`  [ok]   ${agentName}: linked to ${dest}`);
+    console.log(`  [ok]   ${label}`);
     return 'installed';
-  } catch (err) {
-    console.log(`  [fail] ${agentName}: could not link to ${dest} (${err.message})`);
+  } catch (e) {
+    console.log(`  [fail] ${label} (${e.message})`);
     console.log(`         try manually: cp -r "${skillDir}" "${dest}"`);
     return 'failed';
   }
 }
 
-function prompt(question) {
-  return new Promise(resolve => {
-    const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-    rl.question(question, ans => { rl.close(); resolve((ans || '').trim()); });
-  });
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Display
-// ─────────────────────────────────────────────────────────────────────────────
-
-function printHeader() {
-  console.log(`${skillName} v${skillVersion} — skill installer`);
-  console.log(`Source: ${skillDir}`);
-  console.log('');
-}
-
-function printHelp() {
-  console.log(`Usage: npx ${skillName} install [options]
-
-Scans for installed AI coding agents and links this skill into their skill
-directories. Runs interactively when stdout is a TTY; otherwise installs for
-all detected agents (CI-friendly).
-
-Options:
-  --agents, -a <list>   Comma-separated agent slugs to install for
-                        (e.g. -a kilo,claude-code). Skips interactive prompt.
-  --path <dir>          Install into a custom directory instead of agent defaults.
-                        Useful for non-standard layouts or unsupported agents.
-  --global, -g          Only install to global (home) paths.
-  --local, -l           Only install to project-local (cwd) paths.
-  --yes, -y             Skip confirmation prompts. Implied when not a TTY.
-  --force, -f           Overwrite existing links.
-  --help, -h            Show this help message.
-
-Examples:
-  npx ${skillName} install
-  npx ${skillName} install -a kilo,claude-code -y
-  npx ${skillName} install --path ~/my-agent/skills
-  npx ${skillName} install -g --force
-`);
-}
-
-function printAgentScan(detectedAgents, scope) {
-  console.log('Scanning for installed AI agents...');
-  console.log('');
-  for (const a of agents) {
-    const inScope = a.paths.filter(p => {
-      if (scope === 'global') return p.location === 'global';
-      if (scope === 'local')  return p.location === 'local';
-      return true;
-    });
-    const found = inScope.filter(p => dirExists(p.dir));
-    const isDetected = found.length > 0;
-    const marker = isDetected ? '[√]' : '[ ]';
-    const where = found.map(p => relHome(p.dir)).join(', ');
-    const tail = isDetected ? `  → ${where}` : '';
-    console.log(`  ${marker} ${a.slug.padEnd(16)} ${a.name}${tail}`);
-  }
-  console.log('');
-}
-
-function relHome(p) {
-  const home = os.homedir();
-  if (p.startsWith(home)) return '~' + p.slice(home.length).replace(/\\/g, '/');
-  return p.replace(/\\/g, '/');
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Install logic
-// ─────────────────────────────────────────────────────────────────────────────
-
-function scopeFilter(scope) {
-  return p => {
-    if (scope === 'global') return p.location === 'global';
-    if (scope === 'local')  return p.location === 'local';
-    return true;
-  };
-}
-
-function installForAgents(targetAgents, scope, force) {
+function doInstall(targetAgents, scope, force) {
   let installed = 0, skipped = 0, failed = 0;
-  for (const agent of targetAgents) {
-    const paths = agent.paths.filter(scopeFilter(scope));
-    if (paths.length === 0) {
-      console.log(`  [skip] ${agent.name}: no paths in scope '${scope}'`);
-      skipped++;
-      continue;
-    }
-    for (const { dir } of paths) {
-      if (!dirExists(dir)) {
-        // For explicitly selected agents, create the directory.
-        try {
-          fs.mkdirSync(dir, { recursive: true });
-        } catch {
-          console.log(`  [skip] ${agent.name}: cannot create ${dir}`);
-          skipped++;
-          continue;
-        }
-      }
-      const result = linkSkill(dir, agent.name, force);
-      if (result === 'installed') installed++;
-      else if (result === 'skipped') skipped++;
-      else failed++;
+  for (const a of targetAgents) {
+    const dirs = [];
+    if (scope === 'global' || scope === 'all')  dirs.push(globalInstall(a));
+    if (scope === 'project' || scope === 'all') dirs.push(projectInstall(a));
+    for (const d of dirs) {
+      const r = linkSkill(d, force);
+      if (r === 'installed') installed++; else if (r === 'skipped') skipped++; else failed++;
     }
   }
   return { installed, skipped, failed };
 }
 
-function installToCustomPath(customDir, force) {
-  console.log(`Installing to custom path: ${customDir}`);
-  console.log('');
-  const result = linkSkill(customDir, 'custom', force);
-  return {
-    installed: result === 'installed' ? 1 : 0,
-    skipped:   result === 'skipped'   ? 1 : 0,
-    failed:    result === 'failed'    ? 1 : 0
-  };
+// ─────────────────────────────────────────────────────────────────────────────
+// Help
+// ─────────────────────────────────────────────────────────────────────────────
+
+function printHelp() {
+  console.log(`Usage: npx ${skillName} install [options]
+
+Scans for installed AI coding agents and links this skill into their skills
+directories. Runs interactively when stdin is a TTY; otherwise installs for all
+detected agents at global scope (CI-friendly).
+
+Options:
+  --agents, -a <list>   Comma-separated agent slugs (e.g. -a claude,codex)
+  --path <dir>          Install into a custom directory
+  --global, -g          Global scope only
+  --local, -l           Project scope only
+  --yes, -y             Skip prompts (use detected agents)
+  --force, -f           Overwrite existing links
+  --help, -h            Show this help message
+
+Examples:
+  npx ${skillName} install
+  npx ${skillName} install -a claude,codex
+  npx ${skillName} install --path ~/my-agent/skills
+  npx ${skillName} install -g --force
+`);
 }
 
-async function interactiveSelect(detectedAgents, scope) {
-  // Returns the list of agents the user wants to install for.
-  if (detectedAgents.length === 0) {
-    console.log('No agents detected on this machine.');
-    console.log('You can:');
-    console.log('  - install for a specific agent:    npx ' + skillName + ' install -a kilo');
-    console.log('  - install to a custom directory:   npx ' + skillName + ' install --path <dir>');
-    console.log('  - list all agents and pick:        npx ' + skillName + ' install -a all');
-    console.log('');
-    const all = await prompt('Install for ALL known agents (creates their dirs)? [y/N] ');
-    if (all.toLowerCase() === 'y' || all.toLowerCase() === 'yes') {
-      return agents.slice();
-    }
-    return [];
+// ─────────────────────────────────────────────────────────────────────────────
+// Non-interactive install
+// ─────────────────────────────────────────────────────────────────────────────
+
+function nonInteractive({ selectedAgents, scope, customPath, force }) {
+  if (customPath) {
+    console.log(`Installing to custom path: ${customPath}`);
+    const r = linkSkill(customPath, force);
+    return {
+      installed: r === 'installed' ? 1 : 0,
+      skipped:   r === 'skipped'   ? 1 : 0,
+      failed:    r === 'failed'    ? 1 : 0,
+    };
   }
 
-  console.log(`Detected ${detectedAgents.length} agent(s).`);
+  let target;
+  if (selectedAgents && selectedAgents.length > 0) {
+    target = selectedAgents;
+  } else {
+    const detected = detectAll();
+    const effectiveScope = scope === 'all' ? 'global' : scope;
+    target = [...new Set(detected.filter(d => d.scope === effectiveScope).map(d => d.agent))];
+  }
+
+  if (target.length === 0) {
+    console.log('No agents detected.');
+    console.log(`Specify agents with: npx ${skillName} install -a claude,codex`);
+    console.log(`Or a custom path:    npx ${skillName} install --path <dir>`);
+    return { installed: 0, skipped: 0, failed: 0 };
+  }
+
+  const effectiveScope = scope === 'all' ? 'global' : scope;
+  console.log(`Installing for: ${target.map(a => a.name).join(', ')}`);
+  console.log(`Scope: ${effectiveScope}`);
   console.log('');
-  console.log('  [enter]  install for detected agents (default)');
-  console.log('  [a]      install for ALL known agents');
-  console.log('  [s]      select from a list');
-  console.log('  [n]      abort');
-  const ans = await prompt('Choose: ');
+  return doInstall(target, effectiveScope, force);
+}
 
-  if (ans === '' || ans.toLowerCase() === 'y') return detectedAgents.slice();
-  if (ans.toLowerCase() === 'a') return agents.slice();
-  if (ans.toLowerCase() === 'n') return null;
-  if (ans.toLowerCase() === 's') {
-    console.log('');
-    agents.forEach((a, i) => {
-      const isDet = detectedAgents.includes(a);
-      const marker = isDet ? '√' : ' ';
-      console.log(`  ${i + 1}. [${marker}] ${a.slug.padEnd(16)} ${a.name}`);
-    });
-    console.log('  (comma-separated numbers, or blank for detected-only)');
-    const sel = await prompt('Pick: ');
-    if (sel === '') return detectedAgents.slice();
-    const picked = sel.split(',')
-      .map(s => parseInt(s.trim(), 10) - 1)
-      .filter(i => i >= 0 && i < agents.length)
-      .map(i => agents[i]);
-    return picked.length > 0 ? picked : detectedAgents.slice();
+// ─────────────────────────────────────────────────────────────────────────────
+// Interactive install (clack TUI — mirrors impeccable UX)
+// ─────────────────────────────────────────────────────────────────────────────
+
+async function interactive({ force }) {
+  const clack = require('@clack/prompts');
+
+  clack.intro(`${skillName} install`);
+
+  // 1. Detect
+  const detected = detectAll();
+  const detectedAgents = [...new Set(detected.map(d => d.agent))];
+
+  if (detected.length > 0) {
+    const lines = detected.map(d => `  ${d.agent.name.padEnd(16)} ${relHome(d.dir)}`).join('\n');
+    console.log(`\n◇ Detected agents\n${lines}\n`);
+  } else {
+    console.log('\n◇ No agents detected on this machine.\n');
   }
-  return detectedAgents.slice();
+
+  // No agents detected — offer all or abort
+  if (detectedAgents.length === 0) {
+    const proceed = await clack.select({
+      message: 'No agents detected. Install for all known agents?',
+      options: [
+        { value: 'all',    label: 'Yes, install for all (creates their dirs)' },
+        { value: 'abort',  label: 'Abort' },
+      ],
+    });
+    if (clack.isCancel(proceed) || proceed === 'abort') {
+      clack.cancel('Aborted');
+      process.exit(0);
+    }
+    const location = await clack.select({
+      message: 'Install location',
+      options: [
+        { value: 'project', label: `Project (${process.cwd()})` },
+        { value: 'global',  label: 'Global (~)' },
+      ],
+    });
+    if (clack.isCancel(location)) { clack.cancel('Aborted'); process.exit(0); }
+    console.log('');
+    const r = doInstall(agents, location, force);
+    clack.outro(`Done! installed: ${r.installed}, skipped: ${r.skipped}, failed: ${r.failed}`);
+    if (r.failed > 0) process.exit(1);
+    return;
+  }
+
+  // 2. Detected only or customize?
+  const mode = await clack.select({
+    message: 'Install for detected agents only, or add more?',
+    options: [
+      { value: 'detected', label: `Detected only (${detectedAgents.map(a => a.slug).join(', ')})` },
+      { value: 'custom',   label: 'Customize...' },
+    ],
+  });
+  if (clack.isCancel(mode)) { clack.cancel('Aborted'); process.exit(0); }
+
+  // 3. Select agents (if customize)
+  let targetAgents;
+  if (mode === 'custom') {
+    const opts = agents.map(a => ({
+      value: a.slug,
+      label: a.name,
+      hint: a.slug,
+    }));
+    const picked = await clack.multiselect({
+      message: 'Select agents',
+      options: opts,
+      required: true,
+    });
+    if (clack.isCancel(picked)) { clack.cancel('Aborted'); process.exit(0); }
+    targetAgents = agents.filter(a => picked.includes(a.slug));
+  } else {
+    targetAgents = detectedAgents;
+  }
+
+  // 4. Install location
+  const location = await clack.select({
+    message: 'Install location',
+    options: [
+      { value: 'project', label: `Project (${process.cwd()})` },
+      { value: 'global',  label: 'Global (~)' },
+    ],
+  });
+  if (clack.isCancel(location)) { clack.cancel('Aborted'); process.exit(0); }
+
+  // 5. Install
+  console.log('');
+  const r = doInstall(targetAgents, location, force);
+  clack.outro(`Done! installed: ${r.installed}, skipped: ${r.skipped}, failed: ${r.failed}`);
+  if (r.failed > 0) process.exit(1);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Arg parsing
+// ─────────────────────────────────────────────────────────────────────────────
+
+function parseArgs(argv) {
+  const positional = [];
+  const opts = { agents: null, path: null, scope: 'all', force: false, yes: false, help: false };
+  let i = 0;
+  while (i < argv.length) {
+    const a = argv[i];
+    if (a === '--agents' || a === '-a') {
+      opts.agents = (argv[++i] || '').split(',').map(s => s.trim().toLowerCase()).filter(Boolean);
+      i++;
+    } else if (a === '--path') {
+      opts.path = path.resolve(argv[++i]);
+      i++;
+    } else if (a === '--global' || a === '-g') {
+      opts.scope = 'global'; i++;
+    } else if (a === '--local' || a === '-l' || a === '--project') {
+      opts.scope = 'project'; i++;
+    } else if (a === '--all') {
+      opts.scope = 'all'; i++;
+    } else if (a === '--force' || a === '-f') {
+      opts.force = true; i++;
+    } else if (a === '--yes' || a === '-y') {
+      opts.yes = true; i++;
+    } else if (a === '--help' || a === '-h') {
+      opts.help = true; i++;
+    } else if (!a.startsWith('-')) {
+      positional.push(a); i++;
+    } else {
+      console.log(`Unknown option: ${a}  (use --help)`);
+      process.exit(1);
+    }
+  }
+  return { positional, opts };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -302,128 +322,48 @@ async function interactiveSelect(detectedAgents, scope) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 async function main() {
-  const args = process.argv.slice(2);
+  const { positional, opts } = parseArgs(process.argv.slice(2));
 
-  if (args.includes('--help') || args.includes('-h')) {
-    printHelp();
+  if (opts.help) { printHelp(); return; }
+
+  // Subcommand: accept 'install' or none
+  const subcommand = positional[0];
+  if (subcommand && subcommand !== 'install') {
+    console.log(`Unknown subcommand: ${subcommand}  (use --help)`);
+    process.exit(1);
+  }
+
+  // Custom path: bypass everything
+  if (opts.path) {
+    const r = nonInteractive({ customPath: opts.path, force: opts.force });
+    console.log(`\nDone! installed: ${r.installed}, skipped: ${r.skipped}, failed: ${r.failed}`);
+    if (r.failed > 0) process.exit(1);
     return;
   }
 
-  // Parse args
-  const selectedSlugs = [];
-  let scope = 'all';
-  let force = false;
-  let autoYes = !isTTY();
-  let customPath = null;
-
-  for (let i = 0; i < args.length; i++) {
-    const arg = args[i];
-    if ((arg === '--agents' || arg === '-a') && i + 1 < args.length) {
-      const raw = args[++i];
-      raw.split(',').forEach(a => {
-        const slug = a.trim().toLowerCase().replace(/\s+/g, '-');
-        if (slug && !selectedSlugs.includes(slug)) selectedSlugs.push(slug);
-      });
-    } else if (arg === '--path' && i + 1 < args.length) {
-      customPath = path.resolve(args[++i]);
-    } else if (arg === '--global' || arg === '-g') {
-      scope = 'global';
-    } else if (arg === '--local' || arg === '-l' || arg === '--project') {
-      scope = 'local';
-    } else if (arg === '--all') {
-      scope = 'all';
-    } else if (arg === '--force' || arg === '-f') {
-      force = true;
-    } else if (arg === '--yes' || arg === '-y') {
-      autoYes = true;
-    } else {
-      console.log(`Unknown option: ${arg}  (use --help)`);
-      process.exit(1);
-    }
-  }
-
-  printHeader();
-
-  // Case 1: custom path — bypass agent selection entirely.
-  if (customPath) {
-    const summary = installToCustomPath(customPath, force);
-    printSummary(summary, 'Done.');
-    return;
-  }
-
-  // Case 2: --agents all (explicit override)
-  const wantAllAgents = selectedSlugs.includes('all');
-
-  // Scan
-  printAgentScan(agents, scope);
-
-  let targetAgents;
-
-  if (wantAllAgents) {
-    targetAgents = agents.slice();
-  } else if (selectedSlugs.length > 0) {
-    targetAgents = agents.filter(a => selectedSlugs.includes(a.slug));
-    if (targetAgents.length === 0) {
+  // Explicit --agents: non-interactive
+  if (opts.agents) {
+    const selected = agents.filter(a => opts.agents.includes(a.slug));
+    if (selected.length === 0) {
       console.log('No matching agents. Available slugs:');
-      agents.forEach(a => console.log(`  ${a.slug.padEnd(16)} ${a.name}`));
+      agents.forEach(a => console.log(`  ${a.slug.padEnd(12)} ${a.name}`));
       process.exit(1);
     }
+    const scope = opts.scope === 'all' ? 'global' : opts.scope;
+    const r = nonInteractive({ selectedAgents: selected, scope, force: opts.force });
+    console.log(`\nDone! installed: ${r.installed}, skipped: ${r.skipped}, failed: ${r.failed}`);
+    if (r.failed > 0) process.exit(1);
+    return;
+  }
+
+  // Interactive vs non-interactive
+  if (isTTY() && !opts.yes) {
+    await interactive({ force: opts.force });
   } else {
-    // Auto-detect
-    const detected = agents.filter(a =>
-      a.paths.filter(scopeFilter(scope)).some(p => dirExists(p.dir))
-    );
-
-    if (isTTY() && !autoYes) {
-      const choice = await interactiveSelect(detected, scope);
-      if (choice === null) {
-        console.log('Aborted.');
-        process.exit(0);
-      }
-      if (choice.length === 0) {
-        console.log('Nothing to install. Use --agents or --path to specify a target.');
-        process.exit(0);
-      }
-      targetAgents = choice;
-    } else {
-      // Non-interactive: install for detected agents only.
-      targetAgents = detected;
-      if (targetAgents.length === 0) {
-        console.log('No agents detected and not a TTY — cannot prompt.');
-        console.log('Specify agents explicitly:  npx ' + skillName + ' install -a kilo,claude-code');
-        console.log('Or install to a custom path: npx ' + skillName + ' install --path <dir>');
-        process.exit(0);
-      }
-    }
+    const r = nonInteractive({ scope: opts.scope, force: opts.force });
+    console.log(`\nDone! installed: ${r.installed}, skipped: ${r.skipped}, failed: ${r.failed}`);
+    if (r.failed > 0) process.exit(1);
   }
-
-  // Confirm
-  console.log(`Will install for: ${targetAgents.map(a => a.name).join(', ')}`);
-  console.log(`Scope: ${scope}    Force: ${force ? 'yes' : 'no'}`);
-  console.log('');
-
-  if (isTTY() && !autoYes) {
-    const confirm = await prompt('Proceed? [Y/n] ');
-    if (confirm.toLowerCase() === 'n') {
-      console.log('Aborted.');
-      process.exit(0);
-    }
-  }
-
-  const summary = installForAgents(targetAgents, scope, force);
-  printSummary(summary, 'Done.');
 }
 
-function printSummary({ installed, skipped, failed }, tail) {
-  console.log('');
-  console.log(`${tail} installed: ${installed}, skipped: ${skipped}, failed: ${failed}`);
-  if (installed > 0) {
-    console.log('Verify with:  pwsh init.ps1   (or  powershell -ExecutionPolicy Bypass -File init.ps1)');
-  }
-  if (failed > 0) process.exit(1);
-}
-
-main().catch(err => {
-  console.error('Installer error:', err);
-  process.exit(1);
-});
+main().catch(err => { console.error('Installer error:', err); process.exit(1); });

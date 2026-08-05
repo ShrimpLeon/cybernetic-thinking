@@ -5,6 +5,35 @@ Versioning follows [Semantic Versioning](https://semver.org/) in `X.Y.Z` format.
 
 ---
 
+## [0.5.0] — 2026-08-05
+
+### Added
+- `@clack/prompts` (`^0.9.1`) as a runtime dependency — the installer now uses a proper TUI instead of raw `readline`
+- **Gemini CLI** to the agent registry (slug `gemini`, root `~/.gemini`)
+- **skills.sh discoverability**: `author` (`ShrimpLeon`) and `tags` (`control-theory`, `cybernetics`, `thinking-mode`, `ai-agent`, `coding-agent`, `debugging`) fields added to `SKILL.md` frontmatter; `skills-sh` keyword added to `package.json`. Closes out the previously-stubbed feat-013 (0.4.1) that was marked done but never actually shipped
+
+### Changed
+- **`scripts/install.js` rewritten end-to-end** with `@clack/prompts`, mirroring the `npx impeccable skills install` UX:
+  1. `◇ Detected agents` — scans and lists detected agents with resolved paths
+  2. `◆ Detected only / Customize` — single-select; `Customize...` opens a `multiselect` (space to toggle)
+  3. `◆ Install location` — `Project (cwd)` or `Global (~)`
+  4. Link the skill into each selected agent's `skills/` directory (junction on Windows, symlink elsewhere)
+  5. `◇ Done!` outro with `installed / skipped / failed` summary
+- **Unified agent registry layout**: every agent now detects at `~/.<root>` (global) or `./.<root>` (project) and installs at `~/.<root>/skills/<skillName>` (or project). Replaces the previous per-agent custom paths (e.g. `~/.claude/plugins/custom-skills/`, `~/.config/kilo/skills/`)
+- Agent slugs simplified: `claude` (was `claude-code`), `codex` (was `openai-codex`), `copilot` (was `github-copilot`, root `.github`). `kilo`, `aider`, `cursor`, `windsurf`, `zed` unchanged
+- Non-TTY / CI / piped-stdin path auto-skips the TUI and installs for all detected agents at global scope
+- Both `README.md` and `README_CN.md` — install section rewritten with the new clack TUI example session, updated agent directory table (now 9 agents), and slug examples (`-a claude,codex`)
+
+### Fixed
+- **`install` subcommand crash**: the previous arg parser treated the `install` positional as an unknown option and exited with `Unknown option: install`. The new parser accepts `install` (or no subcommand) explicitly; unknown subcommands now get a clear error
+- `--agents` / `--path` / `--yes` / `--force` / `--global` / `--local` flags all preserved for scripting and CI
+
+### Notes
+- The interactive TUI requires a TTY; in CI it degrades gracefully to non-interactive install
+- Windows symlinks use `junction` (no admin rights needed for directory junctions); real symlinks may still require Developer Mode or admin on some setups
+
+---
+
 ## [0.4.0] — 2026-07-30
 
 ### Changed
